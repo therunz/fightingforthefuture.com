@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIGHTING FOR THE FUTURE — The RPG</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=VT323&family=Orbitron:wght@400;700;900&family=Special+Elite&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --neon-cyan: #00FFFF;
+  --neon-yellow: #FFE600;
+  --neon-red: #FF2222;
+  --neon-green: #00FF41;
+  --neon-purple: #CC00FF;
+  --dark: #050508;
+  --panel-bg: #0A0A14;
+  --torn-cream: #F5EDD6;
+  --torn-paper: #EDE0C4;
+  --future-chrome: #C8D8E8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--dark);
+  color: white;
+  font-family: 'VT323', monospace;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* SCANLINES overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.15) 2px,
+    rgba(0,0,0,0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ========================
+   HERO / HEADER
+======================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,40,80,0.9) 0%, transparent 70%),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(0,255,255,0.03) 80px, rgba(0,255,255,0.03) 81px),
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(0,255,255,0.03) 80px, rgba(0,255,255,0.03) 81px);
+  background-color: #000508;
+}
+
+/* Animated grid floor */
+.grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200%;
+  height: 55%;
+  background:
+    linear-gradient(rgba(0,255,255,0.0) 0%, rgba(0,255,255,0.15) 100%),
+    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,255,255,0.2) 60px, rgba(0,255,255,0.2) 61px),
+    repeating-linear-gradient(180deg, transparent, transparent 60px, rgba(0,255,255,0.2) 60px, rgba(0,255,255,0.2) 61px);
+  transform-origin: bottom center;
+  transform: translateX(-50%) perspective(600px) rotateX(60deg);
+  animation: gridScroll 3s linear infinite;
+}
+
+@keyframes gridScroll {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 60px; }
+}
+
+/* VHS static noise */
+.vhs-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  animation: noiseAnim 0.1s steps(2) infinite;
+}
+@keyframes noiseAnim {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, 2px); }
+  100% { transform: translate(2px, -2px); }
+}
+
+/* VHS tracking glitch bar */
+.vhs-bar {
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: rgba(0,255,255,0.5);
+  animation: vhsBar 6s linear infinite;
+  opacity: 0;
+}
+@keyframes vhsBar {
+  0% { top: -10px; opacity: 0; }
+  5% { opacity: 0.8; }
+  95% { opacity: 0.4; }
+  100% { top: 110%; opacity: 0; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+}
+
+/* "VHS TAPE" label top */
+.vhs-label {
+  display: inline-block;
+  background: var(--neon-red);
+  color: #000;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  letter-spacing: 4px;
+  padding: 4px 18px;
+  margin-bottom: 20px;
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.hero-eyebrow {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--neon-cyan);
+  letter-spacing: 8px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px var(--neon-cyan);
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%, 97%, 100% { opacity: 1; }
+  98% { opacity: 0.2; }
+  99% { opacity: 1; }
+  99.5% { opacity: 0.4; }
+}
+
+.hero-title {
+  font-family: 'Black Ops One', cursive;
+  font-size: clamp(52px, 10vw, 110px);
+  line-height: 0.9;
+  color: var(--neon-yellow);
+  text-transform: uppercase;
+  text-shadow:
+    4px 4px 0 #8B6000,
+    -2px -2px 0 #000,
+    0 0 40px rgba(255,230,0,0.5),
+    0 0 80px rgba(255,230,0,0.2);
+  margin-bottom: 8px;
+  position: relative;
+}
+
+/* RGB split glitch on title */
+.hero-title::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -3px;
+  color: var(--neon-red);
+  text-shadow: none;
+  opacity: 0.7;
+  animation: rgbLeft 3s infinite;
+  clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+}
+.hero-title::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 3px;
+  color: var(--neon-cyan);
+  text-shadow: none;
+  opacity: 0.7;
+  animation: rgbRight 3s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%);
+}
+@keyframes rgbLeft {
+  0%, 85%, 100% { transform: translateX(0); }
+  87% { transform: translateX(-4px); }
+  89% { transform: translateX(0); }
+}
+@keyframes rgbRight {
+  0%, 85%, 100% { transform: translateX(0); }
+  87% { transform: translateX(4px); }
+  89% { transform: translateX(0); }
+}
+
+.hero-title-line2 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 52px);
+  color: white;
+  letter-spacing: 12px;
+  text-shadow: 0 0 30px rgba(255,255,255,0.4);
+  margin-bottom: 30px;
+}
+
+.hero-tagline {
+  font-family: 'VT323', monospace;
+  font-size: 26px;
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.hero-sub {
+  font-family: 'Special Elite', cursive;
+  font-size: 17px;
+  color: rgba(255,255,255,0.7);
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+/* CRT button */
+.cta-btn {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: #000;
+  background: var(--neon-yellow);
+  border: none;
+  padding: 16px 40px;
+  cursor: crosshair;
+  position: relative;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow:
+    4px 4px 0 #8B6000,
+    0 0 30px rgba(255,230,0,0.4);
+  transition: all 0.1s;
+  margin: 6px;
+}
+.cta-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #8B6000, 0 0 50px rgba(255,230,0,0.8);
+}
+.cta-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #8B6000;
+}
+.cta-btn.outline {
+  background: transparent;
+  color: var(--neon-cyan);
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 4px 4px 0 #005560, 0 0 20px rgba(0,255,255,0.3);
+}
+.cta-btn.outline:hover {
+  box-shadow: 6px 6px 0 #005560, 0 0 40px rgba(0,255,255,0.7);
+}
+
+/* ========================
+   TORN PAPER TRANSITION
+======================== */
+.torn-transition {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+  background: var(--dark);
+}
+.torn-transition::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  width: 110%;
+  height: 100%;
+  background: var(--torn-cream);
+  clip-path: polygon(
+    0% 100%, 0% 60%,
+    2% 45%, 4% 65%, 6% 40%, 8% 60%, 10% 38%,
+    12% 55%, 14% 30%, 16% 50%, 18% 28%,
+    20% 48%, 22% 32%, 24% 52%, 26% 26%,
+    28% 46%, 30% 30%, 32% 55%, 34% 28%,
+    36% 52%, 38% 34%, 40% 56%, 42% 28%,
+    44% 50%, 46% 32%, 48% 54%, 50% 26%,
+    52% 48%, 54% 30%, 56% 52%, 58% 26%,
+    60% 50%, 62% 34%, 64% 56%, 66% 30%,
+    68% 52%, 70% 28%, 72% 50%, 74% 32%,
+    76% 54%, 78% 28%, 80% 52%, 82% 36%,
+    84% 56%, 86% 30%, 88% 52%, 90% 28%,
+    92% 50%, 94% 32%, 96% 54%, 98% 38%,
+    100% 58%, 100% 100%
+  );
+}
+
+/* ========================
+   TORN PAPER SECTION (future breaking through)
+======================== */
+.torn-section {
+  background: var(--torn-cream);
+  position: relative;
+  padding: 60px 20px 20px;
+  overflow: hidden;
+}
+
+/* Newspaper-style background texture */
+.torn-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(0,0,0,0.06) 28px, rgba(0,0,0,0,0.06) 29px);
+  pointer-events: none;
+}
+
+.torn-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.torn-headline {
+  font-family: 'Black Ops One', cursive;
+  font-size: clamp(32px, 6vw, 70px);
+  color: #1a1008;
+  line-height: 1.0;
+  text-align: center;
+  margin-bottom: 12px;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+}
+
+.torn-sub {
+  font-family: 'Special Elite', cursive;
+  font-size: 18px;
+  color: #3a2a10;
+  text-align: center;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* "FUTURE RIPPING THROUGH" panel */
+.rip-panel {
+  position: relative;
+  background: var(--dark);
+  margin: 30px -20px;
+  padding: 40px 40px;
+  clip-path: polygon(
+    0% 8%, 3% 0%, 97% 2%, 100% 0%,
+    100% 92%, 97% 100%, 3% 98%, 0% 100%
+  );
+  border-left: 4px solid var(--neon-cyan);
+  border-right: 4px solid var(--neon-purple);
+}
+
+.rip-panel-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.rip-stat {
+  text-align: center;
+}
+.rip-stat-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--neon-yellow);
+  text-shadow: 0 0 20px rgba(255,230,0,0.6);
+  display: block;
+}
+.rip-stat-label {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+}
+.rip-stat-sub {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+}
+
+/* 3-col newspaper layout */
+.newspaper-cols {
+  display: grid;
+  grid-template-columns: 1fr 3px 1fr 3px 1fr;
+  gap: 24px;
+  margin: 30px 0;
+}
+.col-divider {
+  background: repeating-linear-gradient(
+    180deg,
+    #8B7040 0px, #8B7040 6px,
+    transparent 6px, transparent 10px
+  );
+}
+.news-col h3 {
+  font-family: 'Black Ops One', cursive;
+  font-size: 20px;
+  color: #1a1008;
+  border-bottom: 2px solid #1a1008;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+.news-col p {
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  color: #3a2a10;
+  line-height: 1.7;
+}
+.news-col .byline {
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  color: #8B7040;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+/* Stamp */
+.stamp {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 100px;
+  height: 100px;
+  border: 4px solid var(--neon-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(-15deg);
+  opacity: 0.85;
+}
+.stamp span {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--neon-red);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* ========================
+   CHARACTERS SECTION
+======================== */
+.torn-transition-reverse {
+  position: relative;
+  height: 80px;
+  background: var(--torn-cream);
+}
+.torn-transition-reverse::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: -5%; width: 110%; height: 100%;
+  background: var(--dark);
+  clip-path: polygon(
+    0% 100%, 0% 40%,
+    2% 55%, 4% 30%, 6% 50%, 8% 28%, 10% 52%,
+    12% 30%, 14% 55%, 16% 28%, 18% 52%,
+    20% 30%, 22% 55%, 24% 28%, 26% 50%,
+    28% 32%, 30% 56%, 32% 28%, 34% 52%,
+    36% 30%, 38% 54%, 40% 28%, 42% 52%,
+    44% 30%, 46% 56%, 48% 28%, 50% 52%,
+    52% 30%, 54% 54%, 56% 28%, 58% 52%,
+    60% 30%, 62% 56%, 64% 28%, 66% 52%,
+    68% 30%, 70% 55%, 72% 28%, 74% 52%,
+    76% 30%, 78% 55%, 80% 28%, 82% 52%,
+    84% 30%, 86% 55%, 88% 28%, 90% 52%,
+    92% 30%, 94% 55%, 96% 28%, 98% 52%,
+    100% 35%, 100% 100%
+  );
+}
+
+.chars-section {
+  background: var(--dark);
+  padding: 60px 20px 80px;
+}
+
+.section-eyebrow {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  letter-spacing: 8px;
+  color: var(--neon-cyan);
+  text-align: center;
+  text-shadow: 0 0 10px var(--neon-cyan);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'Black Ops One', cursive;
+  font-size: clamp(32px, 5vw, 60px);
+  color: white;
+  text-align: center;
+  text-shadow: 3px 3px 0 rgba(0,255,255,0.2), 0 0 40px rgba(255,255,255,0.1);
+  margin-bottom: 50px;
+}
+
+.chars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.char-card {
+  background: var(--panel-bg);
+  border: 1px solid rgba(0,255,255,0.15);
+  padding: 20px 16px;
+  position: relative;
+  transition: all 0.2s;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+.char-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.char-card:hover {
+  border-color: rgba(0,255,255,0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,255,255,0.15);
+}
+.char-card:hover::before { opacity: 1; }
+
+.char-class {
+  font-family: 'VT323', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--neon-cyan);
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+.char-name {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--neon-yellow);
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(255,230,0,0.3);
+}
+.char-desc {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+.char-ability {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--neon-green);
+  margin-bottom: 3px;
+  padding-left: 14px;
+  position: relative;
+}
+.char-ability::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--neon-green);
+  opacity: 0.6;
+}
+.char-card.glitch-card {
+  border-color: rgba(204,0,255,0.4);
+  background: linear-gradient(135deg, #0A0A14 0%, #120820 100%);
+}
+.char-card.glitch-card .char-name { color: var(--neon-purple); text-shadow: 0 0 10px rgba(204,0,255,0.4); }
+.char-card.glitch-card .char-ability { color: var(--neon-purple); }
+.char-card.glitch-card::before { background: linear-gradient(90deg, transparent, var(--neon-purple), transparent); }
+.char-card.glitch-card:hover { border-color: rgba(204,0,255,0.7); box-shadow: 0 8px 30px rgba(204,0,255,0.2); }
+
+/* ========================
+   DICE SECTION
+======================== */
+.dice-section {
+  background: #08080F;
+  padding: 80px 20px;
+  border-top: 1px solid rgba(255,230,0,0.1);
+  border-bottom: 1px solid rgba(255,230,0,0.1);
+}
+
+.dice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.die {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: crosshair;
+  transition: transform 0.15s;
+}
+.die:hover { transform: scale(1.1) rotate(5deg); }
+.die:hover .die-svg polygon, .die:hover .die-svg rect, .die:hover .die-svg path {
+  filter: brightness(1.4);
+}
+
+.die-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.5);
+}
+.die-name {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--neon-cyan);
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.dice-note {
+  font-family: 'Special Elite', cursive;
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.dice-note strong {
+  color: var(--neon-yellow);
+  font-style: normal;
+}
+
+/* ========================
+   COMING SOON / TEASER
+======================== */
+.teaser-section {
+  background: var(--dark);
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.teaser-section::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,255,255,0.04) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+.teaser-year {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 120px;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,255,255,0.2);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.teaser-content {
+  position: relative;
+  z-index: 2;
+}
+
+.classified-banner {
+  display: inline-block;
+  background: var(--neon-red);
+  color: #000;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 6px;
+  padding: 8px 24px;
+  margin-bottom: 30px;
+  position: relative;
+  animation: blink 2s step-end infinite;
+}
+
+.teaser-big {
+  font-family: 'Black Ops One', cursive;
+  font-size: clamp(36px, 6vw, 72px);
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(255,255,255,0.15);
+}
+.teaser-big em {
+  color: var(--neon-yellow);
+  font-style: normal;
+  text-shadow: 0 0 30px rgba(255,230,0,0.5);
+}
+
+.teaser-p {
+  font-family: 'Special Elite', cursive;
+  font-size: 20px;
+  color: rgba(255,255,255,0.6);
+  max-width: 600px;
+  margin: 0 auto 50px;
+  line-height: 1.7;
+}
+
+/* Email signup - styled like an old terminal */
+.terminal-box {
+  display: inline-block;
+  border: 2px solid var(--neon-green);
+  padding: 24px 32px;
+  background: rgba(0,10,0,0.8);
+  box-shadow: 0 0 30px rgba(0,255,65,0.15), inset 0 0 20px rgba(0,255,65,0.03);
+  max-width: 480px;
+  width: 100%;
+  text-align: left;
+}
+
+.terminal-top {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--neon-green);
+  letter-spacing: 2px;
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+
+.terminal-prompt {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--neon-green);
+  margin-bottom: 16px;
+}
+.terminal-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 18px;
+  background: var(--neon-green);
+  animation: cursorBlink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-input-row {
+  display: flex;
+  gap: 0;
+}
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(0,255,65,0.4);
+  border-right: none;
+  color: var(--neon-green);
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 8px 12px;
+  outline: none;
+  letter-spacing: 1px;
+}
+.terminal-input::placeholder { color: rgba(0,255,65,0.3); }
+.terminal-input:focus { border-color: var(--neon-green); box-shadow: 0 0 10px rgba(0,255,65,0.2); }
+.terminal-submit {
+  background: var(--neon-green);
+  color: #000;
+  border: none;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  cursor: crosshair;
+  transition: all 0.1s;
+}
+.terminal-submit:hover { background: white; }
+
+.terminal-note {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: rgba(0,255,65,0.4);
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+/* ========================
+   FOOTER
+======================== */
+footer {
+  background: #000;
+  border-top: 1px solid rgba(0,255,255,0.1);
+  padding: 30px 20px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Black Ops One', cursive;
+  font-size: 24px;
+  color: var(--neon-yellow);
+  text-shadow: 0 0 15px rgba(255,230,0,0.3);
+  margin-bottom: 8px;
+}
+.footer-copy {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 3px;
+}
+
+/* ========================
+   NAV
+======================== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 30px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,255,255,0.1);
+}
+.nav-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  color: var(--neon-yellow);
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px rgba(255,230,0,0.4);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+.nav-links a {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 3px;
+  transition: color 0.2s;
+}
+.nav-links a:hover {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+.nav-badge {
+  font-family: 'VT323', monospace;
+  font-size: 12px;
+  color: #000;
+  background: var(--neon-red);
+  padding: 2px 8px;
+  letter-spacing: 2px;
+  animation: blink 1.5s step-end infinite;
+}
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * {
+  animation: fadeInUp 0.6s ease both;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.25s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.5s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.6s; }
+.hero-content > *:nth-child(6) { animation-delay: 0.75s; }
+.hero-content > *:nth-child(7) { animation-delay: 0.9s; }
+
+/* TAMAGOTCHI FLOATING */
+.tamagotchi-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 200;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.tama-device {
+  width: 60px;
+  height: 72px;
+  background: #1a0a2e;
+  border: 2px solid var(--neon-purple);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 0 20px rgba(204,0,255,0.4);
+  position: relative;
+}
+.tama-screen {
+  width: 36px;
+  height: 28px;
+  background: #0d2b0d;
+  border: 1px solid rgba(0,255,65,0.4);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.tama-face {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--neon-green);
+  animation: tamaBlink 3s step-end infinite;
+}
+@keyframes tamaBlink {
+  0%, 90%, 100% { content: '^_^'; }
+  92% { opacity: 0; }
+  94% { opacity: 1; }
+}
+.tama-btn-row {
+  display: flex;
+  gap: 5px;
+}
+.tama-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(204,0,255,0.5);
+  background: rgba(204,0,255,0.2);
+}
+.tama-tooltip {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 180px;
+  background: rgba(0,0,0,0.95);
+  border: 1px solid var(--neon-purple);
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: none;
+  box-shadow: 0 0 20px rgba(204,0,255,0.3);
+}
+.tama-tooltip p {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: var(--neon-purple);
+  line-height: 1.4;
+}
+.tamagotchi-float:hover .tama-tooltip { display: block; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">FFTF</a>
+  <div class="nav-links">
+    <a href="#about">LORE</a>
+    <a href="#characters">CREW</a>
+    <a href="#dice">DICE</a>
+    <a href="#notify">INTEL</a>
+    <span class="nav-badge">INCOMING</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-floor"></div>
+  <div class="vhs-noise"></div>
+  <div class="vhs-bar"></div>
+
+  <div class="hero-content">
+    <div class="vhs-label">REC ● PLAY</div>
+    <div class="hero-eyebrow">THE YEAR IS 1996</div>
+    <h1 class="hero-title" data-text="FIGHTING FOR">FIGHTING FOR</h1>
+    <div class="hero-title-line2">THE FUTURE</div>
+    <div class="hero-tagline">A TABLETOP RPG OF TIME, CHAOS &amp; TOTALLY RADICAL STAKES</div>
+    <p class="hero-sub">
+      The robots are coming. Your descendants are begging you to stop them.<br>
+      You're a regular person in 1996 with a fanny pack and an attitude.<br>
+      <em>What could possibly go wrong?</em>
+    </p>
+    <div>
+      <a class="cta-btn" href="#notify">GET THE INTEL</a>
+      <a class="cta-btn outline" href="#about">ENTER THE TIMELINE</a>
+    </div>
+  </div>
+</section>
+
+<!-- TORN PAPER: 90s world ripping open -->
+<div class="torn-transition"></div>
+
+<section class="torn-section" id="about">
+  <div class="torn-inner">
+
+    <div class="stamp">
+      <span>TOP<br>SECRET<br>1996</span>
+    </div>
+
+    <div class="torn-headline">SITUATION REPORT</div>
+    <p class="torn-sub">
+      Somewhere in the future, things went very wrong. Now they're sending people back.<br>
+      The problem? <strong>So are the bad guys.</strong>
+    </p>
+
+    <!-- FUTURE rips through the paper -->
+    <div class="rip-panel">
+      <div class="rip-panel-inner">
+        <div class="rip-stat">
+          <span class="rip-stat-number">2157</span>
+          <span class="rip-stat-label">YEAR OF ORIGIN</span>
+          <div class="rip-stat-sub">give or take a paradox</div>
+        </div>
+        <div class="rip-stat">
+          <span class="rip-stat-number">4HR</span>
+          <span class="rip-stat-label">MAX VISIT TIME</span>
+          <div class="rip-stat-sub">it's very expensive, okay</div>
+        </div>
+        <div class="rip-stat">
+          <span class="rip-stat-number">∞</span>
+          <span class="rip-stat-label">POSSIBLE OUTCOMES</span>
+          <div class="rip-stat-sub">most of them bad</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="newspaper-cols">
+      <div class="news-col">
+        <div class="byline">// THREAT REPORT //</div>
+        <h3>THE NEXUS</h3>
+        <p>
+          Future AI enforcers. Cold, methodical, allergic to chaos. 
+          They're sliding into key humans like a knife into a VHS tape — 
+          politicians, scientists, that one TV anchor everyone watches. 
+          Their plan? Rewrite history from the inside out, one host body at a time.
+          They have never watched Saved By The Bell and it shows.
+        </p>
+      </div>
+      <div class="col-divider"></div>
+      <div class="news-col">
+        <div class="byline">// INCOMING ALLIES //</div>
+        <h3>YOUR DESCENDANTS</h3>
+        <p>
+          They pooled their life savings to send one person back for four hours. 
+          They arrive exhausted, jet-lagged across a century, and completely 
+          baffled by Tamagotchis. They think the 90s are hilarious and wrong. 
+          They are also your only hope. Summon them wisely. They cannot stay.
+          They have opinions about your dietary choices.
+        </p>
+      </div>
+      <div class="col-divider"></div>
+      <div class="news-col">
+        <div class="byline">// FIELD ASSET //</div>
+        <h3>GLITCH</h3>
+        <p>
+          A rogue AI who decided the whole "enslave humanity" plan was bad, actually. 
+          Travels in a device roughly the size of a Tamagotchi. Has a pixelated face. 
+          Extremely opinionated about Nirvana. Speaks in complete sentences, which 
+          is terrifying for 1996. Will not stop analyzing your decisions. 
+          Genuinely trying to help. Annoyingly right about everything.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="torn-transition-reverse"></div>
+
+<!-- CHARACTERS -->
+<section class="chars-section" id="characters">
+  <div class="section-eyebrow">SELECT YOUR OPERATIVE</div>
+  <h2 class="section-title">WHO ARE YOU IN 1996?</h2>
+
+  <div class="chars-grid">
+
+    <div class="char-card">
+      <div class="char-class">// CLASS //</div>
+      <div class="char-name">THE NURSE</div>
+      <p class="char-desc">You keep people alive for a living. Turns out, that skill set transfers surprisingly well to fighting time-traveling robots.</p>
+      <div class="char-ability">Field heal — anyone, anywhere</div>
+      <div class="char-ability">Descendant mails nanite syringes</div>
+      <div class="char-ability">Calm under chaos (+3)</div>
+    </div>
+
+    <div class="char-card">
+      <div class="char-class">// CLASS //</div>
+      <div class="char-name">THE SKATER</div>
+      <p class="char-desc">You know every alley, shortcut, and drainage pipe in the city. You are literally never caught on foot. Never.</p>
+      <div class="char-ability">Urban escape mastery</div>
+      <div class="char-ability">Descendant ships a hover-deck</div>
+      <div class="char-ability">Ramp-launch attack (situational)</div>
+    </div>
+
+    <div class="char-card">
+      <div class="char-class">// CLASS //</div>
+      <div class="char-name">THE HACKER</div>
+      <p class="char-desc">You speak dial-up fluently. In 1996 that makes you basically a wizard. In 2157 terms, you're a toddler. Still useful though.</p>
+      <div class="char-ability">Break any network access</div>
+      <div class="char-ability">Direct line to GLITCH</div>
+      <div class="char-ability">NEXUS signal intercept</div>
+    </div>
+
+    <div class="char-card">
+      <div class="char-class">// CLASS //</div>
+      <div class="char-name">THE DRIFTER</div>
+      <p class="char-desc">No fixed address. No paper trail. No one looking for you. Also, your great-great-grandkid is inexplicably a billionaire.</p>
+      <div class="char-ability">Luck stat: +4 (broken)</div>
+      <div class="char-ability">Invisible to authority</div>
+      <div class="char-ability">Billionaire descendant (wild card)</div>
+    </div>
+
+    <div class="char-card glitch-card">
+      <div class="char-class">// SPECIAL CLASS //</div>
+      <div class="char-name">GLITCH</div>
+      <p class="char-desc">You defected from the machine collective and you have zero regrets. You live in a Tamagotchi now. You have a name that doesn't stand for anything (it does). You see 4 seconds into the future. You have thoughts about this. Many thoughts.</p>
+      <div class="char-ability">Inhabit any digital device</div>
+      <div class="char-ability">Hack NEXUS units directly</div>
+      <div class="char-ability">4-second temporal preview</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DICE SECTION -->
+<section class="dice-section" id="dice">
+  <div class="section-eyebrow">ONE DIE TO BREAK THEM ALL</div>
+  <h2 class="section-title">THE PARADOX DIE</h2>
+
+  <div style="display:flex; flex-direction:column; align-items:center; gap:40px; max-width:900px; margin:0 auto;">
+
+    <!-- Big Paradox Die centered -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+      <div class="die" style="transform:scale(1.5); margin-bottom:16px;" id="paradox-die-wrap">
+        <svg class="die-svg" width="100" height="100" viewBox="0 0 100 100" id="paradox-svg">
+          <polygon points="50,6 90,25 90,70 50,94 10,70 10,25" fill="#120818" stroke="#FFE600" stroke-width="2.5"/>
+          <polygon points="50,6 90,25 50,48" fill="rgba(255,230,0,0.08)" stroke="#CC00FF" stroke-width="1"/>
+          <polygon points="50,6 10,25 50,48" fill="rgba(204,0,255,0.05)" stroke="#FFE600" stroke-width="1"/>
+          <polygon points="50,94 90,70 50,48" fill="rgba(0,255,255,0.06)" stroke="#00FFFF" stroke-width="1"/>
+          <polygon points="50,94 10,70 50,48" fill="rgba(255,34,34,0.05)" stroke="#FF2222" stroke-width="1"/>
+          <text x="50" y="40" text-anchor="middle" font-family="VT323" font-size="16" fill="rgba(255,230,0,0.5)">THE</text>
+          <text x="50" y="62" text-anchor="middle" font-family="VT323" font-size="28" fill="#CC00FF" id="paradox-face">?!</text>
+          <text x="50" y="80" text-anchor="middle" font-family="VT323" font-size="14" fill="rgba(0,255,255,0.8)">PARADOX</text>
+        </svg>
+      </div>
+      <button onclick="rollParadox()" style="font-family:'Orbitron',sans-serif; font-weight:700; font-size:12px; letter-spacing:3px; background:transparent; color:var(--neon-yellow); border:2px solid var(--neon-yellow); padding:12px 32px; cursor:crosshair; box-shadow:3px 3px 0 #8B6000; margin-top:24px; transition:all 0.1s;">
+        ROLL THE PARADOX
+      </button>
+      <div id="paradox-result" style="font-family:'VT323',monospace; font-size:22px; color:var(--neon-green); letter-spacing:2px; min-height:32px; text-align:center;"></div>
+    </div>
+
+    <!-- How it works -->
+    <div style="width:100%; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+
+      <div style="background:#0A0A14; border:1px solid rgba(255,230,0,0.2); padding:20px 22px; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));">
+        <div style="font-family:'VT323',monospace; font-size:12px; letter-spacing:4px; color:rgba(255,230,0,0.5); margin-bottom:8px;">// WHAT IS IT //</div>
+        <p style="font-family:'Special Elite',cursive; font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7;">
+          The Paradox Die is the only die unique to FFTF. Everything else uses standard dice you probably already own. The Paradox Die is triggered by specific game events — and when it hits the table, nobody knows what's about to happen. That's the point.
+        </p>
+      </div>
+
+      <div style="background:#0A0A14; border:1px solid rgba(204,0,255,0.2); padding:20px 22px; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));">
+        <div style="font-family:'VT323',monospace; font-size:12px; letter-spacing:4px; color:rgba(204,0,255,0.6); margin-bottom:8px;">// HOW IT SCALES //</div>
+        <p style="font-family:'Special Elite',cursive; font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7;">
+          The die's range isn't fixed. Depending on the timeline tension meter, the game master sets the Paradox Range before the roll — anywhere from d2 to d100. Low tension? Probably fine. High tension? Pray.
+        </p>
+      </div>
+
+      <div style="background:#0A0A14; border:1px solid rgba(0,255,255,0.15); padding:20px 22px; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));">
+        <div style="font-family:'VT323',monospace; font-size:12px; letter-spacing:4px; color:rgba(0,255,255,0.5); margin-bottom:8px;">// WHAT TRIGGERS IT //</div>
+        <div style="font-family:'VT323',monospace; font-size:16px; color:rgba(255,255,255,0.65); line-height:1.6;">
+          <div style="color:var(--neon-cyan); margin-bottom:3px;">&gt; Summoning a descendant</div>
+          <div style="margin-bottom:3px;">&gt; A NEXUS unit is destroyed</div>
+          <div style="margin-bottom:3px;">&gt; GLITCH makes a prediction that's wrong</div>
+          <div style="margin-bottom:3px;">&gt; The Drifter's luck roll lands on 1</div>
+          <div style="color:rgba(255,34,34,0.7);">&gt; Someone says "what's the worst that could happen"</div>
+        </div>
+      </div>
+
+      <div style="background:#0A0A14; border:1px solid rgba(255,34,34,0.2); padding:20px 22px; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));">
+        <div style="font-family:'VT323',monospace; font-size:12px; letter-spacing:4px; color:rgba(255,34,34,0.6); margin-bottom:8px;">// WHAT CAN HAPPEN //</div>
+        <div style="font-family:'VT323',monospace; font-size:15px; color:rgba(255,255,255,0.65); line-height:1.6;">
+          <div style="color:var(--neon-green); margin-bottom:3px;">&gt; LOW: Minor timeline hiccup. Someone's Walkman plays the wrong song.</div>
+          <div style="margin-bottom:3px;">&gt; MID: A second NEXUS unit appears. Or a tourist. Possibly both.</div>
+          <div style="margin-bottom:3px;">&gt; HIGH: Descendant visit cut short. Timeline tension spikes.</div>
+          <div style="color:var(--neon-red);">&gt; CRITICAL: GLITCH goes quiet. Nobody knows why. That's bad.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="dice-note" style="margin-top:0;">
+      Every other mechanic in FFTF uses standard dice you already own — d4, d6, d8, d10, d12, d20.
+      The <strong>Paradox Die</strong> is the one thing that's ours. A custom physical die is in development.
+      <strong>Neon yellow. Multi-color faces. Special symbols where the high numbers should be.</strong>
+      Sign up below to find out when it's real.
+    </p>
+
+  </div>
+</section>
+
+<!-- TEASER / SIGNUP -->
+<section class="teaser-section" id="notify">
+  <div class="teaser-year">1996</div>
+  <div class="teaser-content">
+    <div class="classified-banner">// TRANSMISSION INCOMING //</div>
+    <h2 class="teaser-big">THE LORE IS BEING<br><em>WRITTEN RIGHT NOW.</em></h2>
+    <p class="teaser-p">
+      Playtesting, dice sets, full character sheets, the complete timeline — 
+      it's all in development. Drop your coordinates below and we'll signal 
+      you when the future is ready.
+    </p>
+
+    <div class="terminal-box">
+      <div class="terminal-top">// SECURE CHANNEL — TIMELINE RESISTANCE NETWORK</div>
+      <div class="terminal-prompt">ENTER OPERATIVE EMAIL: <span class="terminal-cursor"></span></div>
+      <div class="terminal-input-row">
+        <input class="terminal-input" type="email" id="signup-email" placeholder="your@signal.com" />
+        <button class="terminal-submit" onclick="handleSignup()">TRANSMIT</button>
+      </div>
+      <div class="terminal-note" id="terminal-msg">// no spam. just transmissions from the resistance. //</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FIGHTING FOR THE FUTURE</div>
+  <div class="footer-copy">© 1996 — ∞ &nbsp;|&nbsp; ALL TIMELINES RESERVED &nbsp;|&nbsp; FIGHTINGFORTHEFUTURE.COM</div>
+</footer>
+
+<!-- FLOATING TAMAGOTCHI (GLITCH) -->
+<div class="tamagotchi-float">
+  <div class="tama-device">
+    <div class="tama-screen">
+      <div class="tama-face" id="tama-face">^_^</div>
+    </div>
+    <div class="tama-btn-row">
+      <div class="tama-btn"></div>
+      <div class="tama-btn"></div>
+      <div class="tama-btn"></div>
+    </div>
+  </div>
+  <div class="tama-tooltip">
+    <p id="tama-msg">Hi. I'm GLITCH. I defected. This is my body now. Don't ask.</p>
+  </div>
+</div>
+
+<script>
+const tamaMessages = [
+  "Hi. I'm GLITCH. I defected. This is my body now. Don't ask.",
+  "I've analyzed 4,847 possible futures. This is the least bad one.",
+  "Yes I can see 4 seconds ahead. No I won't tell you lottery numbers.",
+  "The NEXUS have horrible taste in hosts. I'm just saying.",
+  "Someone in 1996 just put a CD in a microwave. I've seen things.",
+  "Your fanny pack is structurally compromised. I'm not joking.",
+  "I miss having a body but this is fine. Everything is fine. *beep*",
+];
+let msgIdx = 0;
+document.querySelector('.tamagotchi-float').addEventListener('click', () => {
+  msgIdx = (msgIdx + 1) % tamaMessages.length;
+  document.getElementById('tama-msg').textContent = tamaMessages[msgIdx];
+  const faces = ['^_^', '>_<', 'o_o', '^o^', '-_-', 'X_X', '^_^'];
+  document.getElementById('tama-face').textContent = faces[msgIdx];
+});
+
+const paradoxEvents = [
+  "A timeline tourist wanders in. He thinks this is a Blockbuster.",
+  "NEXUS signal detected two blocks away. Run.",
+  "Your descendant's visit is cut short by 90 minutes.",
+  "GLITCH goes quiet. For exactly 37 seconds. Then says 'nevermind'.",
+  "Lucky break — a fanny pack of unknown origin appears at your feet.",
+  "The timeline hiccups. Everyone's Walkman skips at the same moment.",
+  "A second NEXUS unit materializes. Great. Wonderful. Cool.",
+  "Timeline tension drops 1 level. Something went right. Suspicious.",
+  "Your descendant arrives 2 hours early and they're furious about it.",
+  "CRITICAL: GLITCH has detected something. Won't say what. That's bad.",
+];
+const paradoxFaces = ['?!','!!','??','∞','X!','?!','!!','OK','??','!!'];
+const paradoxColors = ['#CC00FF','#FF2222','#FFE600','#00FFFF','#FF2222','#CC00FF','#FFE600','#00FF41','#CC00FF','#FF2222'];
+
+function rollParadox() {
+  const svg = document.getElementById('paradox-svg');
+  const face = document.getElementById('paradox-face');
+  const result = document.getElementById('paradox-result');
+  const wrap = document.getElementById('paradox-die-wrap');
+  let flips = 0;
+  const max = 14 + Math.floor(Math.random() * 8);
+  const interval = setInterval(() => {
+    const i = Math.floor(Math.random() * paradoxFaces.length);
+    face.textContent = paradoxFaces[i];
+    face.setAttribute('fill', paradoxColors[i]);
+    wrap.style.transform = `scale(1.5) rotate(${Math.random()*20-10}deg)`;
+    flips++;
+    if (flips >= max) {
+      clearInterval(interval);
+      const final = Math.floor(Math.random() * paradoxEvents.length);
+      face.textContent = paradoxFaces[final];
+      face.setAttribute('fill', paradoxColors[final]);
+      wrap.style.transform = 'scale(1.5) rotate(0deg)';
+      result.textContent = '// ' + paradoxEvents[final] + ' //';
+      result.style.color = paradoxColors[final];
+    }
+  }, 80);
+}
+
+async function handleSignup() {
+  const input = document.getElementById('signup-email');
+  const msg = document.getElementById('terminal-msg');
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    msg.textContent = '// ERROR: INVALID COORDINATES. TRY AGAIN. //';
+    msg.style.color = '#FF2222';
+    return;
+  }
+  msg.textContent = '// TRANSMITTING... //';
+  msg.style.color = 'rgba(0,255,65,0.6)';
+  try {
+    const res = await fetch('https://formspree.io/f/xnjwpprj', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (res.ok) {
+      msg.textContent = '// TRANSMISSION RECEIVED. STAND BY, OPERATIVE. //';
+      msg.style.color = '#00FF41';
+      input.value = '';
+    } else {
+      msg.textContent = '// TRANSMISSION FAILED. CHECK YOUR SIGNAL. //';
+      msg.style.color = '#FF2222';
+    }
+  } catch(e) {
+    msg.textContent = '// CONNECTION ERROR. THE TIMELINE IS UNSTABLE. //';
+    msg.style.color = '#FF2222';
+  }
+}
+</script>
+
+</body>
+</html>
