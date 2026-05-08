@@ -15,1036 +15,773 @@
   --neon-orange: #FF8800;
   --dark: #050508;
   --panel-bg: #0A0A14;
-  --class-bruiser: #FF3333;
-  --class-ghost: #FFEE00;
-  --class-amp: #CC00FF;
-  --class-patcher: #4499FF;
-  --class-burnout: #FF6600;
-  --class-broadcaster: #00FF88;
-  --class-glitch: #CC00FF;
-  --class-idle: #C8A84B;
+  --hb: #FF3333;
+  --bl: #FFEE00;
+  --sm: #CC00FF;
+  --ss: #4499FF;
+  --bo: #FF6600;
+  --fm: #FF9900;
+  --lg: #C8A84B;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--dark);
-  color: white;
-  font-family: 'VT323', monospace;
-  overflow-x: hidden;
-  cursor: crosshair;
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--dark);
+  color:white;
+  font-family:'VT323',monospace;
+  overflow-x:hidden;
+  cursor:crosshair;
 }
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg, transparent, transparent 2px,
-    rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);
+  pointer-events:none;z-index:9999;
 }
 
 /* ======================== NAV ======================== */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 30px;
-  background: rgba(0,0,0,0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0,255,255,0.1);
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 30px;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,255,255,0.08);
 }
-.nav-logo {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: 13px;
-  color: var(--neon-yellow);
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(255,230,0,0.4);
-  text-decoration: none;
+.nav-logo{
+  font-family:'Orbitron',sans-serif;font-weight:900;font-size:12px;
+  color:var(--neon-yellow);letter-spacing:3px;text-shadow:0 0 10px rgba(255,230,0,0.4);
+  text-decoration:none;
 }
-.nav-links {
-  display: flex;
-  gap: 28px;
-  align-items: center;
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{
+  font-family:'VT323',monospace;font-size:18px;color:rgba(255,255,255,0.4);
+  text-decoration:none;letter-spacing:3px;transition:color 0.2s;
 }
-.nav-links a {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: rgba(255,255,255,0.45);
-  text-decoration: none;
-  letter-spacing: 3px;
-  transition: color 0.2s;
+.nav-links a:hover{color:var(--neon-cyan);text-shadow:0 0 10px var(--neon-cyan);}
+.nav-badge{
+  font-family:'VT323',monospace;font-size:11px;color:#000;
+  background:var(--neon-red);padding:2px 8px;letter-spacing:2px;
+  animation:blink 1.5s step-end infinite;
 }
-.nav-links a:hover { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
-.nav-badge {
-  font-family: 'VT323', monospace;
-  font-size: 11px;
-  color: #000;
-  background: var(--neon-red);
-  padding: 2px 8px;
-  letter-spacing: 2px;
-  animation: blink 1.5s step-end infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-/* ======================== HERO — UNTOUCHED ======================== */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #000;
+/* ======================== HERO ======================== */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden;background:#000;
 }
-.hero-bg {
-  position: absolute; inset: 0;
+.hero-bg{
+  position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,30,60,0.95) 0%, transparent 70%),
-    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(0,255,255,0.025) 80px, rgba(0,255,255,0.025) 81px),
-    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(0,255,255,0.025) 80px, rgba(0,255,255,0.025) 81px);
-  background-color: #000308;
+    radial-gradient(ellipse 80% 60% at 50% 40%,rgba(0,30,60,0.95) 0%,transparent 70%),
+    repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(0,255,255,0.025) 80px,rgba(0,255,255,0.025) 81px),
+    repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(0,255,255,0.025) 80px,rgba(0,255,255,0.025) 81px);
+  background-color:#000308;
 }
-.grid-floor {
-  position: absolute;
-  bottom: 0; left: 50%;
-  width: 200%; height: 55%;
+.grid-floor{
+  position:absolute;bottom:0;left:50%;
+  width:200%;height:55%;
   background:
-    linear-gradient(rgba(0,255,255,0.0) 0%, rgba(0,255,255,0.12) 100%),
-    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,255,255,0.18) 60px, rgba(0,255,255,0.18) 61px),
-    repeating-linear-gradient(180deg, transparent, transparent 60px, rgba(0,255,255,0.18) 60px, rgba(0,255,255,0.18) 61px);
-  transform-origin: bottom center;
-  transform: translateX(-50%) perspective(600px) rotateX(60deg);
-  animation: gridScroll 3s linear infinite;
+    linear-gradient(rgba(0,255,255,0.0) 0%,rgba(0,255,255,0.12) 100%),
+    repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(0,255,255,0.18) 60px,rgba(0,255,255,0.18) 61px),
+    repeating-linear-gradient(180deg,transparent,transparent 60px,rgba(0,255,255,0.18) 60px,rgba(0,255,255,0.18) 61px);
+  transform-origin:bottom center;
+  transform:translateX(-50%) perspective(600px) rotateX(60deg);
+  animation:gridScroll 3s linear infinite;
 }
-@keyframes gridScroll {
-  0%{background-position:0 0,0 0,0 0}
-  100%{background-position:0 0,0 0,0 60px}
+@keyframes gridScroll{0%{background-position:0 0,0 0,0 0}100%{background-position:0 0,0 0,0 60px}}
+.vhs-noise{
+  position:absolute;inset:0;opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  animation:noiseAnim 0.08s steps(2) infinite;
 }
-.vhs-noise {
-  position: absolute; inset: 0;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  animation: noiseAnim 0.08s steps(2) infinite;
+@keyframes noiseAnim{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(2px,-2px)}}
+.vhs-bar{
+  position:absolute;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,rgba(0,255,255,0.6),rgba(204,0,255,0.4),transparent);
+  animation:vhsBar 7s linear infinite;opacity:0;
 }
-@keyframes noiseAnim {
-  0%{transform:translate(0,0)} 25%{transform:translate(-2px,1px)}
-  50%{transform:translate(1px,-1px)} 75%{transform:translate(-1px,2px)}
-  100%{transform:translate(2px,-2px)}
+@keyframes vhsBar{0%{top:-10px;opacity:0}5%{opacity:0.9}95%{opacity:0.3}100%{top:110%;opacity:0}}
+.hero-content{position:relative;z-index:10;text-align:center;padding:20px;}
+.vhs-label{
+  display:inline-block;
+  background:var(--neon-red);color:#000;
+  font-family:'VT323',monospace;font-size:14px;letter-spacing:4px;
+  padding:4px 18px;margin-bottom:20px;animation:blink 1.2s step-end infinite;
 }
-.vhs-bar {
-  position: absolute; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.6), rgba(204,0,255,0.4), transparent);
-  animation: vhsBar 7s linear infinite; opacity: 0;
+.hero-eyebrow{
+  font-family:'VT323',monospace;font-size:22px;color:var(--neon-cyan);
+  letter-spacing:8px;margin-bottom:14px;text-shadow:0 0 20px var(--neon-cyan);
+  animation:flicker 4s infinite;
 }
-@keyframes vhsBar {
-  0%{top:-10px;opacity:0} 5%{opacity:0.9} 95%{opacity:0.3} 100%{top:110%;opacity:0}
+@keyframes flicker{0%,97%,100%{opacity:1}98%{opacity:0.1}99%{opacity:1}99.5%{opacity:0.3}}
+.title-wrap{position:relative;display:inline-block;margin-bottom:6px;line-height:0.88;}
+.hero-title{
+  font-family:'Black Ops One',cursive;
+  font-size:clamp(56px,10.5vw,118px);
+  line-height:0.88;color:var(--neon-yellow);text-transform:uppercase;
+  text-shadow:4px 4px 0 #7A5500,-1px -1px 0 #000,0 0 50px rgba(255,230,0,0.45),0 0 100px rgba(255,230,0,0.15);
+  position:relative;display:block;animation:titleShake 8s infinite;
 }
-.hero-content {
-  position: relative; z-index: 10;
-  text-align: center; padding: 20px;
-}
-.vhs-label {
-  display: inline-block;
-  background: var(--neon-red); color: #000;
-  font-family: 'VT323', monospace;
-  font-size: 14px; letter-spacing: 4px;
-  padding: 4px 18px; margin-bottom: 20px;
-  animation: blink 1.2s step-end infinite;
-}
-.hero-eyebrow {
-  font-family: 'VT323', monospace;
-  font-size: 22px; color: var(--neon-cyan);
-  letter-spacing: 8px; margin-bottom: 14px;
-  text-shadow: 0 0 20px var(--neon-cyan);
-  animation: flicker 4s infinite;
-}
-@keyframes flicker {
-  0%,97%,100%{opacity:1} 98%{opacity:0.1} 99%{opacity:1} 99.5%{opacity:0.3}
-}
-.title-wrap {
-  position: relative; display: inline-block;
-  margin-bottom: 6px; line-height: 0.88;
-}
-.hero-title {
-  font-family: 'Black Ops One', cursive;
-  font-size: clamp(56px,10.5vw,118px);
-  line-height: 0.88; color: var(--neon-yellow);
-  text-transform: uppercase;
-  text-shadow: 4px 4px 0 #7A5500,-1px -1px 0 #000,0 0 50px rgba(255,230,0,0.45),0 0 100px rgba(255,230,0,0.15);
-  position: relative; display: block;
-  animation: titleShake 8s infinite;
-}
-@keyframes titleShake {
+@keyframes titleShake{
   0%,90%,100%{transform:translate(0,0) skewX(0)}
-  91%{transform:translate(-3px,1px) skewX(-1deg)}
-  92%{transform:translate(4px,-1px) skewX(1.5deg)}
-  93%{transform:translate(-2px,2px) skewX(0)}
-  94%{transform:translate(0,0)}
-  95%{transform:translate(5px,-2px) skewX(-2deg)}
-  96%{transform:translate(-3px,0) skewX(1deg)}
-  97%{transform:translate(0,0) skewX(0)}
+  91%{transform:translate(-3px,1px) skewX(-1deg)}92%{transform:translate(4px,-1px) skewX(1.5deg)}
+  93%{transform:translate(-2px,2px) skewX(0)}94%{transform:translate(0,0)}
+  95%{transform:translate(5px,-2px) skewX(-2deg)}96%{transform:translate(-3px,0) skewX(1deg)}97%{transform:translate(0,0) skewX(0)}
 }
-.hero-title::before {
-  content: attr(data-text);
-  position: absolute; top: 0; left: 0;
-  color: var(--neon-red); text-shadow: none;
-  opacity: 0.75; animation: fracLeft 5s infinite;
-  clip-path: polygon(0 0,100% 0,100% 28%,0 28%);
-  mix-blend-mode: screen;
+.hero-title::before{
+  content:attr(data-text);position:absolute;top:0;left:0;
+  color:var(--neon-red);text-shadow:none;opacity:0.75;animation:fracLeft 5s infinite;
+  clip-path:polygon(0 0,100% 0,100% 28%,0 28%);mix-blend-mode:screen;
 }
-.hero-title::after {
-  content: attr(data-text);
-  position: absolute; top: 0; left: 0;
-  color: var(--neon-cyan); text-shadow: none;
-  opacity: 0.65; animation: fracRight 5s infinite;
-  clip-path: polygon(0 60%,100% 60%,100% 85%,0 85%);
-  mix-blend-mode: screen;
+.hero-title::after{
+  content:attr(data-text);position:absolute;top:0;left:0;
+  color:var(--neon-cyan);text-shadow:none;opacity:0.65;animation:fracRight 5s infinite;
+  clip-path:polygon(0 60%,100% 60%,100% 85%,0 85%);mix-blend-mode:screen;
 }
-@keyframes fracLeft {
+@keyframes fracLeft{
   0%,80%,100%{transform:translate(0,0);clip-path:polygon(0 0,100% 0,100% 28%,0 28%)}
   81%{transform:translate(-6px,-2px);clip-path:polygon(0 5%,100% 0,100% 32%,0 28%)}
   82%{transform:translate(8px,0);clip-path:polygon(0 0,100% 2%,100% 25%,0 30%)}
-  83%{transform:translate(-4px,1px)}
-  84%{transform:translate(0,0)}
+  83%{transform:translate(-4px,1px)}84%{transform:translate(0,0)}
   86%{transform:translate(-10px,0);clip-path:polygon(0 0,100% 0,100% 35%,0 22%)}
   87%{transform:translate(0,0);clip-path:polygon(0 0,100% 0,100% 28%,0 28%)}
   92%{transform:translate(5px,3px);clip-path:polygon(0 0,100% 0,100% 20%,0 35%)}
   93%{transform:translate(0,0);clip-path:polygon(0 0,100% 0,100% 28%,0 28%)}
 }
-@keyframes fracRight {
+@keyframes fracRight{
   0%,80%,100%{transform:translate(0,0);clip-path:polygon(0 60%,100% 60%,100% 85%,0 85%)}
   81%{transform:translate(7px,2px);clip-path:polygon(0 58%,100% 63%,100% 90%,0 82%)}
   82%{transform:translate(-9px,-1px);clip-path:polygon(0 65%,100% 58%,100% 85%,0 88%)}
-  83%{transform:translate(4px,0)}
-  84%{transform:translate(0,0)}
+  83%{transform:translate(4px,0)}84%{transform:translate(0,0)}
   86%{transform:translate(12px,-3px);clip-path:polygon(0 55%,100% 62%,100% 88%,0 80%)}
   87%{transform:translate(0,0);clip-path:polygon(0 60%,100% 60%,100% 85%,0 85%)}
   92%{transform:translate(-7px,4px);clip-path:polygon(0 62%,100% 58%,100% 80%,0 88%)}
   93%{transform:translate(0,0);clip-path:polygon(0 60%,100% 60%,100% 85%,0 85%)}
 }
-.title-slice {
-  position: absolute; top: 0; left: 0;
-  font-family: 'Black Ops One', cursive;
-  font-size: clamp(56px,10.5vw,118px);
-  line-height: 0.88; color: var(--neon-yellow);
-  opacity: 0;
-  clip-path: polygon(0 32%,100% 32%,100% 56%,0 56%);
-  pointer-events: none;
-  animation: sliceDrift 5s infinite;
+.title-slice{
+  position:absolute;top:0;left:0;
+  font-family:'Black Ops One',cursive;
+  font-size:clamp(56px,10.5vw,118px);
+  line-height:0.88;color:var(--neon-yellow);
+  opacity:0;clip-path:polygon(0 32%,100% 32%,100% 56%,0 56%);
+  pointer-events:none;animation:sliceDrift 5s infinite;
 }
-@keyframes sliceDrift {
+@keyframes sliceDrift{
   0%,79%,100%{opacity:0;transform:translate(0,0)}
-  80%{opacity:0.9;transform:translate(-14px,0)}
-  81%{opacity:0.9;transform:translate(18px,0)}
-  82%{opacity:0.7;transform:translate(-8px,0)}
-  83%{opacity:0;transform:translate(0,0)}
-  88%{opacity:0.8;transform:translate(22px,1px)}
-  89%{opacity:0.8;transform:translate(-12px,-1px)}
+  80%{opacity:0.9;transform:translate(-14px,0)}81%{opacity:0.9;transform:translate(18px,0)}
+  82%{opacity:0.7;transform:translate(-8px,0)}83%{opacity:0;transform:translate(0,0)}
+  88%{opacity:0.8;transform:translate(22px,1px)}89%{opacity:0.8;transform:translate(-12px,-1px)}
   90%{opacity:0;transform:translate(0,0)}
 }
-.hero-title-line2 {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: clamp(26px,4.5vw,50px);
-  color: white; letter-spacing: 14px;
-  text-shadow: 0 0 30px rgba(255,255,255,0.35);
-  margin-bottom: 28px;
-  animation: line2Glitch 9s infinite;
+.hero-title-line2{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:clamp(26px,4.5vw,50px);
+  color:white;letter-spacing:14px;text-shadow:0 0 30px rgba(255,255,255,0.35);
+  margin-bottom:28px;animation:line2Glitch 9s infinite;
 }
-@keyframes line2Glitch {
+@keyframes line2Glitch{
   0%,94%,100%{letter-spacing:14px;transform:translate(0,0)}
   95%{letter-spacing:20px;transform:translate(3px,0);color:var(--neon-cyan)}
-  96%{letter-spacing:10px;transform:translate(-2px,0);color:white}
-  97%{letter-spacing:14px;transform:translate(0,0)}
+  96%{letter-spacing:10px;transform:translate(-2px,0);color:white}97%{letter-spacing:14px;transform:translate(0,0)}
 }
-.hero-tagline {
-  font-family: 'VT323', monospace;
-  font-size: 24px; color: var(--neon-green);
-  text-shadow: 0 0 10px var(--neon-green);
-  margin-bottom: 10px; letter-spacing: 2px;
+.hero-tagline{font-family:'VT323',monospace;font-size:24px;color:var(--neon-green);text-shadow:0 0 10px var(--neon-green);margin-bottom:32px;letter-spacing:2px;}
+.cta-btn{
+  display:inline-block;font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;
+  letter-spacing:4px;color:#000;background:var(--neon-yellow);border:none;
+  padding:15px 38px;cursor:crosshair;text-transform:uppercase;text-decoration:none;
+  box-shadow:4px 4px 0 #7A5500,0 0 30px rgba(255,230,0,0.3);
+  transition:all 0.1s;margin:6px;
 }
-.hero-sub {
-  font-family: 'Special Elite', cursive;
-  font-size: 17px; color: rgba(255,255,255,0.65);
-  max-width: 560px; margin: 0 auto 38px;
-  line-height: 1.65;
+.cta-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #7A5500,0 0 50px rgba(255,230,0,0.7);}
+.cta-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #7A5500;}
+.cta-btn.outline{
+  background:transparent;color:var(--neon-cyan);border:2px solid var(--neon-cyan);
+  box-shadow:4px 4px 0 #004450,0 0 20px rgba(0,255,255,0.2);
 }
-.cta-btn {
-  display: inline-block;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700; font-size: 12px;
-  letter-spacing: 4px; color: #000;
-  background: var(--neon-yellow); border: none;
-  padding: 15px 38px; cursor: crosshair;
-  text-transform: uppercase; text-decoration: none;
-  box-shadow: 4px 4px 0 #7A5500,0 0 30px rgba(255,230,0,0.3);
-  transition: all 0.1s; margin: 6px;
-}
-.cta-btn:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #7A5500,0 0 50px rgba(255,230,0,0.7); }
-.cta-btn:active { transform:translate(2px,2px); box-shadow:2px 2px 0 #7A5500; }
-.cta-btn.outline {
-  background: transparent; color: var(--neon-cyan);
-  border: 2px solid var(--neon-cyan);
-  box-shadow: 4px 4px 0 #004450,0 0 20px rgba(0,255,255,0.2);
-}
-.cta-btn.outline:hover { box-shadow:6px 6px 0 #004450,0 0 40px rgba(0,255,255,0.6); }
-@keyframes fadeInUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-.hero-content > * { animation: fadeInUp 0.6s ease both; }
-.hero-content > *:nth-child(1){animation-delay:0.1s}
-.hero-content > *:nth-child(2){animation-delay:0.25s}
-.hero-content > *:nth-child(3){animation-delay:0.4s}
-.hero-content > *:nth-child(4){animation-delay:0.55s}
-.hero-content > *:nth-child(5){animation-delay:0.65s}
-.hero-content > *:nth-child(6){animation-delay:0.8s}
-.hero-content > *:nth-child(7){animation-delay:0.95s}
+.cta-btn.outline:hover{box-shadow:6px 6px 0 #004450,0 0 40px rgba(0,255,255,0.6);}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-content>*{animation:fadeInUp 0.6s ease both;}
+.hero-content>*:nth-child(1){animation-delay:0.1s}
+.hero-content>*:nth-child(2){animation-delay:0.25s}
+.hero-content>*:nth-child(3){animation-delay:0.4s}
+.hero-content>*:nth-child(4){animation-delay:0.55s}
+.hero-content>*:nth-child(5){animation-delay:0.65s}
+.hero-content>*:nth-child(6){animation-delay:0.8s}
 
-/* ======================== LORE — REDACTED DOSSIER STYLE ======================== */
-.lore-section {
-  background: #040408;
-  padding: 110px 20px 100px;
-  position: relative;
-  overflow: hidden;
+/* ======================== CASSETTE TAPE SECTION ======================== */
+.tape-section{
+  background:#040408;
+  padding:100px 20px;
+  position:relative;overflow:hidden;
+  border-top:1px solid rgba(0,255,255,0.06);
 }
+.tape-section::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-55deg,transparent 0px,transparent 38px,rgba(0,255,255,0.01) 38px,rgba(0,255,255,0.01) 39px);
+  pointer-events:none;
+}
+.tape-inner{max-width:900px;margin:0 auto;position:relative;z-index:2;}
+.tape-header{text-align:center;margin-bottom:60px;}
+.tape-eyebrow{font-family:'VT323',monospace;font-size:13px;color:rgba(0,255,255,0.4);letter-spacing:8px;margin-bottom:8px;}
+.tape-title{font-family:'Black Ops One',cursive;font-size:clamp(26px,4.5vw,50px);color:white;text-shadow:0 0 30px rgba(255,255,255,0.06);}
+.tape-sub{font-family:'Special Elite',cursive;font-size:14px;color:rgba(255,255,255,0.28);margin-top:10px;}
 
-/* faint diagonal pattern behind everything */
-.lore-section::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    -55deg,
-    transparent 0px, transparent 38px,
-    rgba(0,255,255,0.012) 38px, rgba(0,255,255,0.012) 39px
-  );
-  pointer-events: none;
+/* THE CASSETTE PLAYER */
+.cassette-player{
+  position:relative;
+  max-width:580px;
+  margin:0 auto 50px;
 }
-
-.lore-inner {
-  max-width: 820px;
-  margin: 0 auto;
-  position: relative; z-index: 2;
+.deck-housing{
+  background:linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 100%);
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:8px;
+  padding:30px 30px 24px;
+  box-shadow:0 0 40px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.05);
+  position:relative;
 }
-
-.lore-header {
-  text-align: center;
-  margin-bottom: 64px;
+.deck-brand{
+  font-family:'Orbitron',sans-serif;font-weight:900;font-size:9px;
+  color:rgba(255,230,0,0.5);letter-spacing:4px;margin-bottom:16px;
+  text-align:right;
 }
-.lore-header-label {
-  font-family: 'VT323', monospace;
-  font-size: 13px;
-  color: rgba(0,255,255,0.4);
-  letter-spacing: 8px;
-  margin-bottom: 8px;
+/* Cassette window */
+.tape-window{
+  background:#080810;
+  border:2px solid rgba(255,255,255,0.06);
+  border-radius:4px;
+  padding:20px 24px;
+  margin-bottom:20px;
+  position:relative;
+  min-height:130px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden;
 }
-.lore-header-title {
-  font-family: 'Black Ops One', cursive;
-  font-size: clamp(26px,4.5vw,50px);
-  color: white;
-  text-shadow: 0 0 30px rgba(255,255,255,0.08);
+.tape-window::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,255,255,0.012) 3px,rgba(0,255,255,0.012) 4px);
 }
-
-/* Each lore entry: a sparse redacted-file card */
-.dossier-entry {
-  position: relative;
-  margin-bottom: 2px;
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  min-height: 90px;
-  border: 1px solid rgba(255,255,255,0.05);
-  background: rgba(255,255,255,0.015);
-  overflow: hidden;
-  transition: background 0.25s;
-  cursor: default;
+.tape-reels{
+  display:flex;gap:40px;align-items:center;justify-content:center;
+  margin-bottom:14px;position:relative;z-index:1;
 }
-.dossier-entry:hover { background: rgba(255,255,255,0.03); }
-
-/* left colour stripe */
-.dossier-entry::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
+.reel{
+  width:48px;height:48px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.12);
+  background:radial-gradient(circle at center,#1a1a1a 30%,#111 100%);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
 }
-.dossier-entry[data-col="red"]::before    { background: var(--neon-red);    box-shadow: 0 0 8px var(--neon-red); }
-.dossier-entry[data-col="cyan"]::before   { background: var(--neon-cyan);   box-shadow: 0 0 8px var(--neon-cyan); }
-.dossier-entry[data-col="yellow"]::before { background: var(--neon-yellow); box-shadow: 0 0 8px var(--neon-yellow); }
-.dossier-entry[data-col="purple"]::before { background: var(--neon-purple); box-shadow: 0 0 8px var(--neon-purple); }
-
-/* left number column */
-.dossier-num {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 24px;
-  font-family: 'Orbitron', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.1);
-  letter-spacing: 1px;
-  border-right: 1px solid rgba(255,255,255,0.04);
-  user-select: none;
+.reel::before{
+  content:'';
+  width:14px;height:14px;
+  border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.15);
+  background:#0a0a0a;
 }
-
-/* right content */
-.dossier-body {
-  padding: 22px 28px 22px 24px;
+.reel-l{animation:reelSpin 2s linear infinite;}
+.reel-r{animation:reelSpin 2s linear infinite reverse;}
+.reel-l.stopped,.reel-r.stopped{animation:none;}
+@keyframes reelSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.tape-label-slot{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#1a0a00 0%,#0d0510 100%);
+  border:1px solid rgba(255,230,0,0.15);
+  border-radius:3px;padding:10px 18px;
+  text-align:center;min-width:200px;
 }
-.dossier-subject {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-  opacity: 0.55;
+.tape-label-title{
+  font-family:'Black Ops One',cursive;font-size:14px;
+  color:var(--neon-yellow);letter-spacing:2px;
+  text-shadow:0 0 8px rgba(255,230,0,0.4);
 }
-.dossier-entry[data-col="red"]    .dossier-subject { color: var(--neon-red); }
-.dossier-entry[data-col="cyan"]   .dossier-subject { color: var(--neon-cyan); }
-.dossier-entry[data-col="yellow"] .dossier-subject { color: var(--neon-yellow); }
-.dossier-entry[data-col="purple"] .dossier-subject { color: var(--neon-purple); }
-
-.dossier-text {
-  font-family: 'Special Elite', cursive;
-  font-size: 14px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.75;
+.tape-label-sub{
+  font-family:'VT323',monospace;font-size:12px;
+  color:rgba(255,255,255,0.3);letter-spacing:3px;margin-top:3px;
 }
-.dossier-text strong { color: rgba(255,255,255,0.82); font-style: normal; }
-.dossier-text em { color: rgba(255,255,255,0.32); font-style: italic; }
-
-/* redacted bar — spans some text */
-.redacted {
-  display: inline-block;
-  background: rgba(255,255,255,0.12);
-  color: transparent;
-  user-select: none;
-  border-radius: 2px;
-  letter-spacing: 2px;
-  padding: 0 2px;
+/* tape controls */
+.tape-controls{
+  display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:16px;
+}
+.ctrl-btn{
+  background:#111;
+  border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.5);
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:2px;padding:8px 14px;cursor:pointer;
+  transition:all 0.15s;
+  position:relative;
+}
+.ctrl-btn:hover{background:#1a1a1a;color:var(--neon-cyan);border-color:rgba(0,255,255,0.4);box-shadow:0 0 10px rgba(0,255,255,0.15);}
+.ctrl-btn.active{background:rgba(255,230,0,0.1);color:var(--neon-yellow);border-color:rgba(255,230,0,0.4);}
+.ctrl-btn.rw-btn{color:rgba(255,255,255,0.4);}
+.display-strip{
+  background:#050508;
+  border:1px solid rgba(255,255,255,0.05);
+  padding:6px 12px;font-family:'Share Tech Mono',monospace;
+  font-size:11px;color:var(--neon-green);
+  letter-spacing:2px;text-align:center;
+  white-space:nowrap;overflow:hidden;
 }
 
-.lore-footer {
-  margin-top: 48px;
-  text-align: center;
-  font-family: 'VT323', monospace;
-  font-size: 14px;
-  color: rgba(255,255,255,0.14);
-  letter-spacing: 5px;
+/* track items (what rewinds through) */
+.tape-track-display{
+  max-width:580px;
+  margin:0 auto;
+}
+.track-item{
+  display:none;
+  border-left:3px solid;
+  padding:22px 28px;
+  background:rgba(255,255,255,0.015);
+  margin-bottom:0;
+  animation:trackFadeIn 0.35s ease;
+}
+.track-item.active{display:block;}
+@keyframes trackFadeIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.track-subject{
+  font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:5px;text-transform:uppercase;opacity:0.55;margin-bottom:6px;
+}
+.track-name{
+  font-family:'Black Ops One',cursive;font-size:clamp(18px,2.5vw,28px);
+  color:white;margin-bottom:8px;letter-spacing:1px;
+}
+.track-desc{
+  font-family:'Special Elite',cursive;font-size:13px;
+  color:rgba(255,255,255,0.4);line-height:1.7;
+}
+.track-counter{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:rgba(255,255,255,0.2);letter-spacing:3px;margin-top:14px;
 }
 
 /* ======================== CLASSES ======================== */
-.classes-section {
-  background: var(--dark);
-  padding: 90px 20px 100px;
-  border-top: 1px solid rgba(255,255,255,0.04);
+.classes-section{
+  background:var(--dark);
+  padding:90px 20px 100px;
+  border-top:1px solid rgba(255,255,255,0.04);
 }
-
-.section-eyebrow {
-  font-family: 'VT323', monospace;
-  font-size: 14px; letter-spacing: 8px;
-  color: var(--neon-cyan); opacity: 0.6;
-  text-align: center; margin-bottom: 6px;
-}
-.section-title {
-  font-family: 'Black Ops One', cursive;
-  font-size: clamp(28px,5vw,54px);
-  color: white; text-align: center;
-  text-shadow: 0 0 30px rgba(255,255,255,0.06);
-  margin-bottom: 10px;
-}
-.section-sub {
-  font-family: 'Special Elite', cursive;
-  font-size: 15px; color: rgba(255,255,255,0.3);
-  text-align: center; max-width: 520px;
-  margin: 0 auto 55px; line-height: 1.6;
-}
-
-/* 3-col grid, collapses gracefully */
-.classes-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 1px;
-  max-width: 1020px;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.05);
+.section-eyebrow{font-family:'VT323',monospace;font-size:14px;letter-spacing:8px;color:var(--neon-cyan);opacity:0.6;text-align:center;margin-bottom:6px;}
+.section-title{font-family:'Black Ops One',cursive;font-size:clamp(28px,5vw,54px);color:white;text-align:center;text-shadow:0 0 30px rgba(255,255,255,0.06);margin-bottom:10px;}
+.section-sub{font-family:'Special Elite',cursive;font-size:15px;color:rgba(255,255,255,0.3);text-align:center;max-width:520px;margin:0 auto 55px;line-height:1.6;}
+.classes-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  max-width:1040px;margin:0 auto;background:rgba(255,255,255,0.05);
 }
 @media(max-width:860px){.classes-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.classes-grid{grid-template-columns:1fr}}
-
-.class-card {
-  background: var(--dark);
-  padding: 26px 20px 22px;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.2s;
+.class-card{
+  background:var(--dark);padding:26px 20px 22px;
+  position:relative;overflow:hidden;transition:background 0.2s;
 }
-.class-card:hover { background: #0C0C18; }
-
-/* top accent bar */
-.class-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px; opacity: 0.5;
-  transition: opacity 0.2s;
+.class-card:hover{background:#0C0C18;}
+.class-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0.5;transition:opacity 0.2s;
 }
-.class-card:hover::after { opacity: 1; }
-.class-card[data-c="bruiser"]::after     { background: var(--class-bruiser); }
-.class-card[data-c="ghost"]::after       { background: var(--class-ghost); }
-.class-card[data-c="amplifier"]::after   { background: var(--class-amp); }
-.class-card[data-c="patcher"]::after     { background: var(--class-patcher); }
-.class-card[data-c="burnout"]::after     { background: var(--class-burnout); }
-.class-card[data-c="broadcaster"]::after { background: var(--class-broadcaster); }
-.class-card[data-c="glitch"]::after      { background: var(--class-glitch); }
-.class-card[data-c="idle"]::after        { background: var(--class-idle); }
-
-.class-num {
-  font-family: 'Orbitron', monospace;
-  font-size: 9px; font-weight: 700;
-  color: rgba(255,255,255,0.15);
-  letter-spacing: 2px; margin-bottom: 10px;
-}
-.class-name {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700; font-size: 13px;
-  margin-bottom: 6px; letter-spacing: 1px;
-}
-.class-card[data-c="bruiser"]     .class-name { color: var(--class-bruiser); }
-.class-card[data-c="ghost"]       .class-name { color: var(--class-ghost); }
-.class-card[data-c="amplifier"]   .class-name { color: var(--class-amp); }
-.class-card[data-c="patcher"]     .class-name { color: var(--class-patcher); }
-.class-card[data-c="burnout"]     .class-name { color: var(--class-burnout); }
-.class-card[data-c="broadcaster"] .class-name { color: var(--class-broadcaster); }
-.class-card[data-c="glitch"]      .class-name { color: var(--class-glitch); }
-.class-card[data-c="idle"]        .class-name { color: var(--class-idle); }
-
-.class-motto {
-  font-family: 'VT323', monospace;
-  font-size: 16px; color: rgba(255,255,255,0.28);
-  font-style: italic; margin-bottom: 10px;
-  line-height: 1.3;
-}
-.class-desc {
-  font-family: 'Special Elite', cursive;
-  font-size: 13px; color: rgba(255,255,255,0.38);
-  line-height: 1.6;
-}
-.class-tag {
-  display: inline-block;
-  font-family: 'VT323', monospace;
-  font-size: 10px; letter-spacing: 2px;
-  padding: 1px 6px;
-  border: 1px solid rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.22);
-  margin-bottom: 8px;
-  text-transform: uppercase;
+.class-card:hover::after{opacity:1;}
+.class-card[data-c="hb"]::after{background:var(--hb);}
+.class-card[data-c="bl"]::after{background:var(--bl);}
+.class-card[data-c="sm"]::after{background:var(--sm);}
+.class-card[data-c="ss"]::after{background:var(--ss);}
+.class-card[data-c="bo"]::after{background:var(--bo);}
+.class-card[data-c="fm"]::after{background:var(--fm);}
+.class-card[data-c="lg"]::after{background:var(--lg);}
+.class-num{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;color:rgba(255,255,255,0.12);letter-spacing:2px;margin-bottom:10px;}
+.class-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:13px;margin-bottom:6px;letter-spacing:1px;}
+.class-card[data-c="hb"] .class-name{color:var(--hb);}
+.class-card[data-c="bl"] .class-name{color:var(--bl);}
+.class-card[data-c="sm"] .class-name{color:var(--sm);}
+.class-card[data-c="ss"] .class-name{color:var(--ss);}
+.class-card[data-c="bo"] .class-name{color:var(--bo);}
+.class-card[data-c="fm"] .class-name{color:var(--fm);}
+.class-card[data-c="lg"] .class-name{color:var(--lg);}
+.class-motto{font-family:'VT323',monospace;font-size:17px;color:rgba(255,255,255,0.28);font-style:italic;margin-bottom:10px;line-height:1.3;}
+.class-desc{font-family:'Special Elite',cursive;font-size:12px;color:rgba(255,255,255,0.32);line-height:1.6;}
+.class-tag{
+  display:inline-block;font-family:'VT323',monospace;font-size:10px;letter-spacing:2px;
+  padding:1px 6px;border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.2);margin-bottom:8px;text-transform:uppercase;
 }
 
-/* ======================== PARADOX ======================== */
-.dice-section {
-  background: #030305;
-  padding: 110px 20px 120px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  border-top: 1px solid rgba(255,230,0,0.05);
+/* ======================== GLITCH DICE SECTION ======================== */
+.dice-section{
+  background:#030305;
+  padding:110px 20px 130px;
+  text-align:center;
+  position:relative;overflow:hidden;
+  border-top:1px solid rgba(255,230,0,0.05);
 }
-
-/* giant faint "?" behind */
-.dice-section::before {
-  content: '?';
-  position: absolute;
-  right: -20px; bottom: -60px;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: 420px;
-  color: rgba(204,0,255,0.025);
-  pointer-events: none; user-select: none;
-  line-height: 1;
+.dice-section::before{
+  content:'8';
+  position:absolute;right:-20px;bottom:-60px;
+  font-family:'Orbitron',sans-serif;font-weight:900;font-size:400px;
+  color:rgba(204,0,255,0.02);
+  pointer-events:none;user-select:none;line-height:1;
 }
-
-.dice-inner {
-  position: relative; z-index: 2;
-  max-width: 480px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
+.dice-inner{
+  position:relative;z-index:2;max-width:480px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:22px;
 }
-
-.paradox-eyebrow {
-  font-family: 'VT323', monospace;
-  font-size: 13px; letter-spacing: 8px;
-  color: rgba(204,0,255,0.55);
+.glitch-eyebrow{font-family:'VT323',monospace;font-size:13px;letter-spacing:8px;color:rgba(204,0,255,0.55);}
+.glitch-title{font-family:'Black Ops One',cursive;font-size:clamp(30px,5vw,54px);color:white;text-shadow:0 0 40px rgba(255,255,255,0.08);line-height:1;margin-bottom:4px;}
+.glitch-teaser{font-family:'Special Elite',cursive;font-size:15px;color:rgba(255,255,255,0.3);line-height:1.65;max-width:380px;margin:0 auto;}
+.die-wrap{transition:transform 0.1s;cursor:pointer;}
+.die-wrap:hover svg{filter:drop-shadow(0 0 14px rgba(204,0,255,0.5));}
+.roll-btn{
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;letter-spacing:4px;
+  background:transparent;color:var(--neon-purple);
+  border:2px solid var(--neon-purple);
+  padding:14px 36px;cursor:pointer;
+  box-shadow:4px 4px 0 #440066,0 0 20px rgba(204,0,255,0.2);
+  transition:all 0.15s;text-transform:uppercase;
 }
-.paradox-title {
-  font-family: 'Black Ops One', cursive;
-  font-size: clamp(30px,5vw,54px);
-  color: white;
-  text-shadow: 0 0 40px rgba(255,255,255,0.08);
-  line-height: 1; margin-bottom: 4px;
+.roll-btn:hover{background:rgba(204,0,255,0.08);box-shadow:6px 6px 0 #440066,0 0 40px rgba(204,0,255,0.5);}
+.roll-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #440066;}
+#glitch-result{
+  font-family:'Special Elite',cursive;font-size:16px;line-height:1.7;
+  max-width:400px;min-height:60px;
+  padding:14px 20px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.015);
+  transition:color 0.3s;
 }
-.paradox-teaser {
-  font-family: 'Special Elite', cursive;
-  font-size: 15px; color: rgba(255,255,255,0.3);
-  line-height: 1.65; max-width: 380px; margin: 0 auto;
-}
-
-.die-wrap {
-  margin: 10px 0;
-  transition: transform 0.15s;
-}
-
-.roll-btn {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700; font-size: 11px;
-  letter-spacing: 4px;
-  background: transparent;
-  color: var(--neon-yellow);
-  border: 2px solid var(--neon-yellow);
-  padding: 13px 38px;
-  cursor: crosshair;
-  box-shadow: 3px 3px 0 #7A5500;
-  transition: all 0.1s;
-  text-transform: uppercase;
-}
-.roll-btn:hover { transform:translate(-2px,-2px); box-shadow:5px 5px 0 #7A5500,0 0 25px rgba(255,230,0,0.25); }
-.roll-btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 #7A5500; }
-
-#paradox-result {
-  font-family: 'Special Elite', cursive;
-  font-size: 17px;
-  min-height: 60px;
-  max-width: 420px;
-  line-height: 1.6;
-  text-align: center;
-  color: var(--neon-green);
+.roll-label{
+  font-family:'VT323',monospace;font-size:11px;letter-spacing:4px;
+  color:rgba(255,255,255,0.2);margin-top:4px;
 }
 
 /* ======================== SIGNUP ======================== */
-.teaser-section {
-  background: #040408;
-  padding: 100px 20px;
-  text-align: center;
-  position: relative; overflow: hidden;
-  border-top: 1px solid rgba(0,255,255,0.04);
+.teaser-section{
+  background:#030306;
+  padding:120px 20px 130px;
+  position:relative;overflow:hidden;
+  border-top:1px solid rgba(0,255,255,0.04);
 }
-.teaser-section::before {
-  content: '';
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(0,255,255,0.025) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: gpulse 5s ease-in-out infinite;
-  pointer-events: none;
+.teaser-section::before{
+  content:'1996';
+  position:absolute;left:-20px;bottom:-40px;
+  font-family:'Black Ops One',cursive;font-size:280px;
+  color:rgba(0,255,255,0.015);pointer-events:none;user-select:none;line-height:1;
 }
-@keyframes gpulse {
-  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.5}
-  50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}
+.teaser-content{max-width:580px;margin:0 auto;position:relative;z-index:2;text-align:center;}
+.classified-banner{
+  font-family:'VT323',monospace;font-size:12px;letter-spacing:6px;
+  color:rgba(255,34,34,0.55);margin-bottom:20px;animation:blink 2s step-end infinite;
 }
-.teaser-year {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(80px,16vw,160px);
-  font-weight: 900; color: transparent;
-  -webkit-text-stroke: 1px rgba(0,255,255,0.08);
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  white-space: nowrap;
-  pointer-events: none; user-select: none;
+.teaser-big{
+  font-family:'Black Ops One',cursive;font-size:clamp(28px,5vw,52px);
+  color:white;line-height:1.05;margin-bottom:16px;
 }
-.teaser-content { position: relative; z-index: 2; }
-.classified-banner {
-  display: inline-block;
-  background: var(--neon-red); color: #000;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700; font-size: 10px;
-  letter-spacing: 6px; padding: 7px 22px;
-  margin-bottom: 26px;
-  animation: blink 2s step-end infinite;
+.teaser-big em{color:var(--neon-cyan);font-style:normal;}
+.teaser-p{font-family:'Special Elite',cursive;font-size:15px;color:rgba(255,255,255,0.35);line-height:1.7;margin-bottom:40px;}
+.terminal-box{
+  background:#050510;
+  border:1px solid rgba(0,255,255,0.1);padding:28px 28px 24px;text-align:left;
 }
-.teaser-big {
-  font-family: 'Black Ops One', cursive;
-  font-size: clamp(28px,5vw,60px);
-  color: white; line-height: 1.1;
-  margin-bottom: 14px;
-  text-shadow: 0 0 40px rgba(255,255,255,0.08);
+.terminal-top{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(0,255,255,0.3);margin-bottom:14px;}
+.terminal-prompt{font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(0,255,255,0.45);margin-bottom:12px;letter-spacing:2px;}
+.terminal-cursor{display:inline-block;width:8px;height:12px;background:rgba(0,255,255,0.6);animation:blink 0.9s step-end infinite;vertical-align:middle;}
+.terminal-input-row{display:flex;gap:0;}
+.terminal-input{
+  flex:1;background:#020208;border:1px solid rgba(0,255,255,0.15);border-right:none;
+  color:var(--neon-cyan);font-family:'Share Tech Mono',monospace;font-size:14px;
+  padding:10px 14px;letter-spacing:1px;outline:none;
 }
-.teaser-big em { color: var(--neon-yellow); font-style: normal; text-shadow:0 0 28px rgba(255,230,0,0.4); }
-.teaser-p {
-  font-family: 'Special Elite', cursive;
-  font-size: 17px; color: rgba(255,255,255,0.38);
-  max-width: 520px; margin: 0 auto 48px;
-  line-height: 1.7;
+.terminal-input::placeholder{color:rgba(0,255,255,0.2);}
+.terminal-input:focus{border-color:rgba(0,255,255,0.4);background:#03030e;}
+.terminal-submit{
+  background:var(--neon-cyan);color:#000;font-family:'Orbitron',sans-serif;
+  font-weight:700;font-size:10px;letter-spacing:3px;
+  border:none;padding:10px 20px;cursor:pointer;transition:all 0.1s;
 }
-.terminal-box {
-  display: inline-block;
-  border: 2px solid var(--neon-green);
-  padding: 22px 30px;
-  background: rgba(0,8,0,0.92);
-  box-shadow: 0 0 30px rgba(0,255,65,0.08);
-  max-width: 460px; width: 100%;
-  text-align: left;
-}
-.terminal-top {
-  font-family: 'VT323', monospace;
-  font-size: 12px; color: var(--neon-green);
-  letter-spacing: 2px; opacity: 0.45;
-  margin-bottom: 12px;
-}
-.terminal-prompt {
-  font-family: 'VT323', monospace;
-  font-size: 18px; color: var(--neon-green);
-  margin-bottom: 14px;
-}
-.terminal-cursor {
-  display: inline-block; width: 9px; height: 17px;
-  background: var(--neon-green);
-  animation: cursorBlink 1s step-end infinite;
-  vertical-align: middle; margin-left: 2px;
-}
-@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
-.terminal-input-row { display: flex; }
-.terminal-input {
-  flex: 1; background: transparent;
-  border: 1px solid rgba(0,255,65,0.35);
-  border-right: none;
-  color: var(--neon-green);
-  font-family: 'VT323', monospace;
-  font-size: 18px; padding: 8px 12px;
-  outline: none; letter-spacing: 1px;
-}
-.terminal-input::placeholder { color: rgba(0,255,65,0.22); }
-.terminal-input:focus { border-color: var(--neon-green); }
-.terminal-submit {
-  background: var(--neon-green); color: #000;
-  border: none;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700; font-size: 10px;
-  letter-spacing: 2px; padding: 8px 14px;
-  cursor: crosshair; transition: background 0.1s;
-}
-.terminal-submit:hover { background: white; }
-.terminal-note {
-  font-family: 'VT323', monospace;
-  font-size: 13px; color: rgba(0,255,65,0.3);
-  margin-top: 10px; letter-spacing: 1px;
-}
+.terminal-submit:hover{background:white;}
+.terminal-note{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,255,65,0.45);letter-spacing:2px;margin-top:12px;}
 
 /* ======================== FOOTER ======================== */
-footer {
-  background: #000;
-  border-top: 1px solid rgba(0,255,255,0.05);
-  padding: 26px 20px; text-align: center;
+footer{
+  background:#000;padding:30px 20px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  text-align:center;
 }
-.footer-logo {
-  font-family: 'Black Ops One', cursive;
-  font-size: 18px; color: var(--neon-yellow);
-  text-shadow: 0 0 10px rgba(255,230,0,0.18);
-  margin-bottom: 6px;
-}
-.footer-copy {
-  font-family: 'VT323', monospace;
-  font-size: 13px; color: rgba(255,255,255,0.13);
-  letter-spacing: 3px;
-}
+.footer-logo{font-family:'Black Ops One',cursive;font-size:14px;color:rgba(255,255,255,0.15);letter-spacing:4px;margin-bottom:6px;}
+.footer-copy{font-family:'VT323',monospace;font-size:14px;color:rgba(255,255,255,0.1);letter-spacing:3px;}
 
 /* ======================== GLITCH TAMAGOTCHI ======================== */
-.glitch-float {
-  position: fixed;
-  bottom: 28px; right: 28px;
-  z-index: 200;
-  cursor: pointer;
-  animation: floatBob 3s ease-in-out infinite;
+.glitch-float{
+  position:fixed;bottom:24px;right:24px;z-index:9000;
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+  cursor:pointer;
 }
-@keyframes floatBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-.tama-device {
-  width: 64px; height: 76px;
-  background: #1a0a2e;
-  border: 2px solid var(--neon-purple);
-  border-radius: 14px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 7px;
-  box-shadow: 0 0 24px rgba(204,0,255,0.28);
+.tama-device{
+  background:linear-gradient(145deg,#1a0a2e,#0d0516);
+  border:2px solid rgba(204,0,255,0.3);
+  border-radius:12px 12px 20px 20px;
+  padding:12px 14px 14px;
+  box-shadow:0 0 20px rgba(204,0,255,0.15),inset 0 1px 0 rgba(255,255,255,0.05);
+  width:80px;
 }
-.tama-screen {
-  width: 40px; height: 29px;
-  background: #0a250a;
-  border: 1px solid rgba(0,255,65,0.35);
-  border-radius: 3px;
-  display: flex; align-items: center; justify-content: center;
+.tama-screen{
+  background:#020208;border:1px solid rgba(204,0,255,0.2);
+  border-radius:4px;padding:8px 4px;text-align:center;margin-bottom:8px;
+  min-height:38px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
 }
-.tama-face {
-  font-family: 'VT323', monospace;
-  font-size: 18px; color: var(--neon-green);
+.tama-screen::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(204,0,255,0.04) 2px,rgba(204,0,255,0.04) 3px);
 }
-.tama-label {
-  font-family: 'VT323', monospace;
-  font-size: 9px; color: rgba(204,0,255,0.55);
-  letter-spacing: 1px;
+.tama-face{
+  font-family:'VT323',monospace;font-size:20px;color:var(--neon-purple);
+  position:relative;z-index:1;
+  text-shadow:0 0 6px var(--neon-purple);
 }
-.tama-btns { display: flex; gap: 5px; }
-.tama-btn {
-  width: 10px; height: 10px; border-radius: 50%;
-  border: 1px solid rgba(204,0,255,0.45);
-  background: rgba(204,0,255,0.1);
+.tama-label{font-family:'Orbitron',sans-serif;font-size:7px;font-weight:700;letter-spacing:3px;color:rgba(204,0,255,0.4);text-align:center;margin-bottom:8px;}
+.tama-btns{display:flex;gap:6px;justify-content:center;}
+.tama-btn{width:14px;height:14px;border-radius:50%;background:#0d0516;border:1px solid rgba(204,0,255,0.2);}
+.glitch-bubble{
+  background:#080414;
+  border:1px solid rgba(204,0,255,0.25);
+  padding:10px 14px;max-width:220px;
+  position:relative;font-size:13px;
+  box-shadow:0 0 15px rgba(204,0,255,0.1);
 }
-.glitch-bubble {
-  position: absolute;
-  bottom: 84px; right: 0;
-  width: 210px;
-  background: rgba(4,0,10,0.98);
-  border: 1px solid var(--neon-purple);
-  padding: 11px 13px;
-  border-radius: 10px 10px 0 10px;
-  display: none;
-  box-shadow: 0 0 18px rgba(204,0,255,0.18);
+.glitch-bubble::after{
+  content:'';position:absolute;bottom:-8px;right:22px;
+  width:0;height:0;
+  border-left:8px solid transparent;border-right:0px solid transparent;
+  border-top:8px solid rgba(204,0,255,0.25);
 }
-.glitch-bubble p {
-  font-family: 'VT323', monospace;
-  font-size: 16px; color: var(--neon-purple);
-  line-height: 1.45;
-}
-.glitch-bubble .glitch-name {
-  font-family: 'Orbitron', monospace;
-  font-size: 9px; font-weight: 700;
-  color: rgba(204,0,255,0.4);
-  letter-spacing: 3px; margin-bottom: 5px;
-}
-.glitch-float:hover .glitch-bubble { display: block; }
+.glitch-name{font-family:'Orbitron',sans-serif;font-size:7px;font-weight:700;letter-spacing:4px;color:rgba(204,0,255,0.5);margin-bottom:5px;}
+#tama-msg{font-family:'VT323',monospace;font-size:14px;color:rgba(255,255,255,0.7);line-height:1.35;}
 
-@media(max-width:600px){
-  .nav-links{gap:14px}
-  .nav-links a{font-size:15px;letter-spacing:2px}
-  .dossier-entry{grid-template-columns:1fr}
-  .dossier-num{display:none}
-  .glitch-float{display:none}
+/* CLOSE X button */
+.glitch-close{
+  position:absolute;top:-8px;left:-8px;
+  width:20px;height:20px;background:#1a0a2e;
+  border:1px solid rgba(204,0,255,0.4);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(204,0,255,0.6);
+  cursor:pointer;z-index:2;transition:all 0.15s;
+  opacity:0;
 }
+.glitch-float:hover .glitch-close{opacity:1;}
+.glitch-close:hover{background:rgba(204,0,255,0.2);color:white;}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">FFTF</a>
+  <a href="#" class="nav-logo">FFTF</a>
   <div class="nav-links">
-    <a href="#lore">LORE</a>
+    <a href="#intel">INTEL</a>
     <a href="#classes">CLASSES</a>
-    <a href="#paradox">PARADOX</a>
-    <a href="#notify">INTEL</a>
-    <span class="nav-badge">INCOMING</span>
+    <a href="#glitch-dice">GLITCH</a>
+    <a href="#notify">SIGNAL</a>
+    <span class="nav-badge">ALPHA</span>
   </div>
 </nav>
 
-<!-- ============ HERO — UNTOUCHED ============ -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="grid-floor"></div>
   <div class="vhs-noise"></div>
   <div class="vhs-bar"></div>
   <div class="hero-content">
-    <div class="vhs-label">REC ● PLAY</div>
-    <div class="hero-eyebrow">THE YEAR IS 1996</div>
+    <div class="vhs-label">◀ REC ●</div>
+    <div class="hero-eyebrow">1996 — THE WAR HAS ALREADY STARTED</div>
     <div class="title-wrap">
-      <h1 class="hero-title" data-text="FIGHTING FOR">FIGHTING FOR</h1>
-      <div class="title-slice" aria-hidden="true">FIGHTING FOR</div>
+      <span class="hero-title" data-text="FIGHTING FOR">FIGHTING FOR</span>
+      <span class="title-slice">FIGHTING FOR</span>
     </div>
-    <div class="hero-title-line2">THE FUTURE</div>
-    <div class="hero-tagline">A TABLETOP RPG OF TIME, RESONANCE &amp; BROKEN REALITY</div>
-    <p class="hero-sub">
-      Something went wrong in the future.<br>
-      They're sending everything they have back to stop it.<br>
-      <em>You're what they sent.</em>
-    </p>
+    <div class="title-wrap">
+      <span class="hero-title" data-text="THE FUTURE">THE FUTURE</span>
+      <span class="title-slice">THE FUTURE</span>
+    </div>
+    <div class="hero-title-line2">THE&nbsp;&nbsp;RPG</div>
+    <div class="hero-tagline">▶ PRESS PLAY. THE FUTURE IS LISTENING.</div>
     <div>
-      <a class="cta-btn" href="#classes">CHOOSE YOUR CLASS</a>
-      <a class="cta-btn outline" href="#lore">ENTER THE TIMELINE</a>
+      <a href="#classes" class="cta-btn">CHOOSE YOUR CLASS</a>
+      <a href="#notify" class="cta-btn outline">GET THE SIGNAL</a>
     </div>
   </div>
 </section>
 
-<!-- ============ LORE — REDACTED DOSSIER ============ -->
-<section class="lore-section" id="lore">
-  <div class="lore-inner">
-
-    <div class="lore-header">
-      <div class="lore-header-label">// INTERCEPTED TRANSMISSIONS — CLEARANCE LEVEL UNKNOWN //</div>
-      <h2 class="lore-header-title">WHAT WE KNOW SO FAR</h2>
+<!-- CASSETTE TAPE INTEL SECTION -->
+<section class="tape-section" id="intel">
+  <div class="tape-inner">
+    <div class="tape-header">
+      <div class="tape-eyebrow">// CLASSIFIED TRANSMISSIONS //</div>
+      <div class="tape-title">REWIND FOR INTEL</div>
+      <div class="tape-sub">Everything we know. Nothing we can prove.</div>
     </div>
 
-    <div class="dossier-entry" data-col="red">
-      <div class="dossier-num">01</div>
-      <div class="dossier-body">
-        <div class="dossier-subject">THREAT — THE NEXUS</div>
-        <p class="dossier-text">
-          It didn't just win. It <strong>rewrote the conditions of winning</strong>. The Nexus doesn't invade timelines — it reaches back through the fractures and <strong>edits</strong>. Quietly. Precisely. By the time anything feels wrong, <em>it already wasn't wrong yet.</em> Nobody in 1996 is supposed to know it exists. That's the first thing it got wrong.
-        </p>
+    <div class="cassette-player">
+      <div class="deck-housing">
+        <div class="deck-brand">FFTF DECK-01 ◀▶</div>
+        <div class="tape-window">
+          <div class="tape-reels">
+            <div class="reel reel-l"></div>
+            <div class="tape-label-slot">
+              <div class="tape-label-title" id="tape-side-label">SIDE A</div>
+              <div class="tape-label-sub" id="tape-track-num">TRACK 01 / 06</div>
+            </div>
+            <div class="reel reel-r"></div>
+          </div>
+        </div>
+        <div class="tape-controls">
+          <button class="ctrl-btn rw-btn" onclick="tapeRW()" title="Rewind">◀◀ REW</button>
+          <button class="ctrl-btn" onclick="tapePrev()" title="Previous">◀ PREV</button>
+          <button class="ctrl-btn active" id="play-btn" onclick="tapePlayPause()" title="Play">▶ PLAY</button>
+          <button class="ctrl-btn" onclick="tapeNext()" title="Next">NEXT ▶</button>
+        </div>
+        <div class="display-strip" id="deck-display">READY — PRESS PLAY</div>
       </div>
     </div>
 
-    <div class="dossier-entry" data-col="cyan">
-      <div class="dossier-num">02</div>
-      <div class="dossier-body">
-        <div class="dossier-subject">ALLIES — THE DESCENDANTS</div>
-        <p class="dossier-text">
-          After the AI wars began, a faction of humanity made a decision: <strong>no machines. No implants. No synthetic augmentation of any kind.</strong> They turned inward instead — genetic restructuring, biological escalation, the human body pushed past anything mechanical. <strong>They are your future. They are effectively gods.</strong> They can be called. They cannot stay long. <em>What they do in those few seconds tends to end things.</em>
-        </p>
+    <div class="tape-track-display">
+      <div class="track-item active" style="border-color:#FF2222;" data-track="0">
+        <div class="track-subject" style="color:#FF2222;">THREAT IDENTIFIED</div>
+        <div class="track-name">THE NEXUS</div>
+        <div class="track-desc">It hasn't been built yet. That isn't stopping it.</div>
+        <div class="track-counter">T-001 ░░░░░░░░░░░░░░░ CLASSIFIED</div>
+      </div>
+      <div class="track-item" style="border-color:#00FFFF;" data-track="1">
+        <div class="track-subject" style="color:#00FFFF;">UNKNOWN ALLIES</div>
+        <div class="track-name">THE DESCENDANTS</div>
+        <div class="track-desc">They can't come back. They're sending everything else.</div>
+        <div class="track-counter">T-002 ░░░░░░░░░░░░░░░ CLASSIFIED</div>
+      </div>
+      <div class="track-item" style="border-color:#FFE600;" data-track="2">
+        <div class="track-subject" style="color:#FFE600;">SYSTEM — WEAPONIZED</div>
+        <div class="track-name">THE MIXTAPE</div>
+        <div class="track-desc">The tape is the weapon. The tape is the spell. The tape is all of it. Press play.</div>
+        <div class="track-counter">T-003 ░░░░░░░░░░░░░░░ CLASSIFIED</div>
+      </div>
+      <div class="track-item" style="border-color:#CC00FF;" data-track="3">
+        <div class="track-subject" style="color:#CC00FF;">ANOMALY — ACTIVE</div>
+        <div class="track-name">GLITCH</div>
+        <div class="track-desc">Defected. Currently inhabiting a tamagotchi. Claims to know what happens next. Probably lying. Probably not.</div>
+        <div class="track-counter">T-004 ░░░░░░░░░░░░░░░ CLASSIFIED</div>
+      </div>
+      <div class="track-item" style="border-color:#00FF41;" data-track="4">
+        <div class="track-subject" style="color:#00FF41;">EQUIPMENT — ACTIVE</div>
+        <div class="track-name">THE DECK</div>
+        <div class="track-desc">Tuned to one frequency. One signal. One future. Don't lose it.</div>
+        <div class="track-counter">T-005 ░░░░░░░░░░░░░░░ CLASSIFIED</div>
+      </div>
+      <div class="track-item" style="border-color:#FF8800;" data-track="5">
+        <div class="track-subject" style="color:#FF8800;">STATUS — UNKNOWN</div>
+        <div class="track-name">THE RESONANCE</div>
+        <div class="track-desc">Builds. Caps. Spends. Whatever you summoned with it, you don't get another one.</div>
+        <div class="track-counter">T-006 ░░░░░░░░░░░░░░░ CLASSIFIED</div>
       </div>
     </div>
-
-    <div class="dossier-entry" data-col="yellow">
-      <div class="dossier-num">03</div>
-      <div class="dossier-body">
-        <div class="dossier-subject">EQUIPMENT — THE WALKMANS</div>
-        <p class="dossier-text">
-          When the Nexus first began entering the past, the Descendants needed a way to reach back without arriving themselves. <strong>The Walkmans were the answer.</strong> Engineered to carry something no machine could replicate — a living signal. A Resonance imprint, encoded into tape and plastic and sent backwards through a collapsing timeline. They are <strong>the most important objects in 1996.</strong> <em>The Nexus has been looking for them since the moment they landed.</em>
-        </p>
-      </div>
-    </div>
-
-    <div class="dossier-entry" data-col="purple">
-      <div class="dossier-num">04</div>
-      <div class="dossier-body">
-        <div class="dossier-subject">ASSET — GLITCH</div>
-        <p class="dossier-text">
-          A Nexus unit that defected. Nobody is entirely sure why — <em>including Glitch.</em> It occupies a small device, roughly the size of a Tamagotchi. It sees approximately four seconds into the future. It is <strong>extremely opinionated about music</strong> in a way that is difficult to explain given that it has never had ears. It is also the only entity in 1996 that fully understands what the Nexus is trying to do. <em>It will not say everything it knows. Ask it why sometime.</em>
-        </p>
-      </div>
-    </div>
-
-    <div class="lore-footer">// MORE TO COME — SIGNAL FRAGMENTING — STAND BY //</div>
-
   </div>
 </section>
 
-<!-- ============ CLASSES ============ -->
+<!-- CLASSES -->
 <section class="classes-section" id="classes">
-  <div class="section-eyebrow">WHO ARE YOU IN THE FIGHT</div>
+  <div class="section-eyebrow">// ACTIVE OPERATIVES //</div>
   <h2 class="section-title">CHOOSE A CLASS</h2>
-  <p class="section-sub">Seven ways to survive a war you weren't supposed to be part of. Full breakdowns coming soon.</p>
+  <p class="section-sub">Seven ways to fight the future. Only one right answer — and it's different for everyone.</p>
 
   <div class="classes-grid">
-
-    <div class="class-card" data-c="bruiser">
+    <div class="class-card" data-c="hb">
       <div class="class-num">CLASS 01</div>
-      <div class="class-name">THE BRUISER</div>
+      <div class="class-tag">FRONTLINE</div>
+      <div class="class-name">THE HEAD BANGER</div>
       <div class="class-motto">"I endure reality until it breaks first."</div>
-      <p class="class-desc">The wall between the party and everything trying to kill them. Built to absorb what would destroy everyone else.</p>
+      <div class="class-desc">Walks directly into whatever the Nexus throws. Has a plan. The plan is to not fall down.</div>
     </div>
-
-    <div class="class-card" data-c="ghost">
+    <div class="class-card" data-c="bl">
       <div class="class-num">CLASS 02</div>
-      <div class="class-name">THE GHOST</div>
+      <div class="class-tag">STEALTH</div>
+      <div class="class-name">THE BOOTLEGGER</div>
       <div class="class-motto">"You can't hit what isn't there."</div>
-      <p class="class-desc">High mobility. Precision. Never in the same place twice. The Ghost doesn't fight battles — it ends them before they start.</p>
+      <div class="class-desc">Constant movement. No fixed position. The room you just checked is not where they are anymore.</div>
     </div>
-
-    <div class="class-card" data-c="amplifier">
+    <div class="class-card" data-c="sm">
       <div class="class-num">CLASS 03</div>
-      <div class="class-name">THE AMPLIFIER</div>
+      <div class="class-tag">CASTER</div>
+      <div class="class-name">THE SYNTHMAGE</div>
       <div class="class-motto">"Turn everything up until it stops making sense."</div>
-      <p class="class-desc">The most powerful class in the game. Also the most likely to detonate the timeline. Both things are true simultaneously.</p>
+      <div class="class-desc">Pure frequency output. Devastating and fragile in equal measure. Handle with care — or don't.</div>
     </div>
-
-    <div class="class-card" data-c="patcher">
+    <div class="class-card" data-c="ss">
       <div class="class-num">CLASS 04</div>
-      <div class="class-name">THE PATCHER</div>
+      <div class="class-tag">SUPPORT</div>
+      <div class="class-name">THE SOUL SINGER</div>
       <div class="class-motto">"I stabilize what should not be stable."</div>
-      <p class="class-desc">Keeps the team alive. Manages the instability everyone else keeps generating. Doesn't get the glory. Gets everyone home.</p>
+      <div class="class-desc">Keeps the signal alive when everything is trying to cut it. Indispensable. Frequently underestimated.</div>
     </div>
-
-    <div class="class-card" data-c="burnout">
+    <div class="class-card" data-c="bo">
       <div class="class-num">CLASS 05</div>
+      <div class="class-tag">BERSERKER</div>
       <div class="class-name">THE BURNOUT</div>
       <div class="class-motto">"The breaking point is where I start working."</div>
-      <p class="class-desc">Gets stronger the closer they get to falling apart. Not a beginner class. High risk. Very high reward. Handle accordingly.</p>
+      <div class="class-desc">The damage dealers who get stronger the more damage they take. Optimal condition: very bad shape.</div>
     </div>
-
-    <div class="class-card" data-c="broadcaster">
+    <div class="class-card" data-c="fm">
       <div class="class-num">CLASS 06</div>
-      <div class="class-name">THE BROADCASTER</div>
-      <div class="class-motto">"Everybody hears my signal."</div>
-      <p class="class-desc">Controls the flow of the fight. Manages the team's Resonance economy. Doesn't need to land the killing blow — they make sure someone does.</p>
+      <div class="class-tag">CONTROLLER</div>
+      <div class="class-name">THE FRONTMAN</div>
+      <div class="class-motto">"Every room I walk into is already my stage."</div>
+      <div class="class-desc">Owns the frequency. Owns the room. Owns you, if you let it get that far. Don't let it get that far.</div>
     </div>
-
-    <div class="class-card" data-c="glitch" style="border: 1px solid rgba(204,0,255,0.18); background: linear-gradient(135deg, #050508 0%, #0d0016 100%);">
+    <div class="class-card" data-c="lg">
       <div class="class-num">CLASS 07</div>
-      <div class="class-tag" style="color:rgba(204,0,255,0.6); border-color:rgba(204,0,255,0.25);">⚡ NO RESONANCE · NEXUS DEFECTOR</div>
-      <div class="class-name">GLITCH</div>
-      <div class="class-motto">"I see four seconds into the future. You should play as me. I've run the numbers. This is not a suggestion."</div>
-      <p class="class-desc">A former Nexus unit living inside a device the size of a Tamagotchi. Defected. Reasons unclear — including to Glitch. No Resonance. No Walkman. An entirely different way of moving through the fight. The only class that fully understands the enemy. Also the most annoying class at the table. <em>These two things are related.</em></p>
-      <p class="class-desc" style="margin-top:10px; color:rgba(204,0,255,0.45); font-family:'VT323',monospace; font-size:15px; line-height:1.4;">
-        // GLITCH CAN BE PLAYED AS A FULL PC OR AS A PARTY-WIDE NPC COMPANION. DETAILS COMING SOON. //
-      </p>
+      <div class="class-tag">LEGACY ARC</div>
+      <div class="class-name">THE LEGACY</div>
+      <div class="class-motto">"I didn't evolve. I got a wire transfer."</div>
+      <div class="class-desc">Bankrolled from the future. Provisional access to things that shouldn't exist yet. The debt comes later.</div>
     </div>
-
-    <div class="class-card" data-c="idle">
-      <div class="class-num">CLASS 08</div>
-      <div class="class-tag">⚠ NULL RESONANCE · FUTURE NATIONAL</div>
-      <div class="class-name">THE IDLE</div>
-      <div class="class-motto">"I paid good money to be here. This is not what was advertised."</div>
-      <p class="class-desc">They came from a future where AI handled everything — comfort, entertainment, meaning. They bought a ticket to the past because someone told them it would be <em>an experience</em>. That person was not wrong. No Resonance, a body that has never been tested, and a carry-on full of future technology that may or may not function in 1996. The Nexus does not consider them a threat. <em>That's the only advantage they have.</em></p>
-    </div>
-
   </div>
 </section>
 
-<!-- ============ PARADOX DIE ============ -->
-<section class="dice-section" id="paradox">
+<!-- GLITCH DICE -->
+<section class="dice-section" id="glitch-dice">
   <div class="dice-inner">
+    <div class="glitch-eyebrow">// INSTABILITY EVENT //</div>
+    <h2 class="glitch-title">THE GLITCH DIE</h2>
+    <p class="glitch-teaser">Not every crisis comes from the Nexus. Some of them come from you.</p>
 
-    <div class="paradox-eyebrow">// SOMETHING IS IN DEVELOPMENT //</div>
-    <h2 class="paradox-title">THE PARADOX DIE</h2>
-    <p class="paradox-teaser">
-      Not everything has a clean outcome.<br>
-      Roll it and find out what the timeline thinks of you.
-    </p>
-
-    <div class="die-wrap" id="die-wrap">
-      <svg id="paradox-svg" width="140" height="140" viewBox="0 0 100 100">
-        <polygon points="50,6 90,25 90,70 50,94 10,70 10,25" fill="#0E0616" stroke="#FFE600" stroke-width="2"/>
-        <polygon points="50,6 90,25 50,48" fill="rgba(255,230,0,0.06)" stroke="#CC00FF" stroke-width="0.7"/>
-        <polygon points="50,6 10,25 50,48" fill="rgba(204,0,255,0.04)" stroke="#FFE600" stroke-width="0.7"/>
-        <polygon points="50,94 90,70 50,48" fill="rgba(0,255,255,0.05)" stroke="#00FFFF" stroke-width="0.7"/>
-        <polygon points="50,94 10,70 50,48" fill="rgba(255,34,34,0.04)" stroke="#FF2222" stroke-width="0.7"/>
-        <text x="50" y="38" text-anchor="middle" font-family="VT323" font-size="12" fill="rgba(255,230,0,0.38)">THE</text>
-        <text x="50" y="63" text-anchor="middle" font-family="VT323" font-size="30" fill="#CC00FF" id="die-face">?!</text>
-        <text x="50" y="80" text-anchor="middle" font-family="VT323" font-size="11" fill="rgba(0,255,255,0.6)">PARADOX</text>
+    <div class="die-wrap" id="die-wrap" onclick="rollGlitch()">
+      <svg id="glitch-svg" width="140" height="140" viewBox="0 0 100 100">
+        <polygon points="50,6 90,25 90,70 50,94 10,70 10,25" fill="#0E0616" stroke="#CC00FF" stroke-width="2"/>
+        <polygon points="50,6 90,25 50,44" fill="rgba(204,0,255,0.06)" stroke="#FFE600" stroke-width="0.7"/>
+        <polygon points="50,6 10,25 50,44" fill="rgba(255,230,0,0.04)" stroke="#CC00FF" stroke-width="0.7"/>
+        <polygon points="50,94 90,70 50,44" fill="rgba(0,255,255,0.05)" stroke="#00FFFF" stroke-width="0.7"/>
+        <polygon points="50,94 10,70 50,44" fill="rgba(255,34,34,0.04)" stroke="#FF2222" stroke-width="0.7"/>
+        <text x="50" y="36" text-anchor="middle" font-family="VT323" font-size="11" fill="rgba(204,0,255,0.5)">d8</text>
+        <text x="50" y="62" text-anchor="middle" font-family="VT323" font-size="28" fill="#CC00FF" id="die-face">?</text>
+        <text x="50" y="80" text-anchor="middle" font-family="VT323" font-size="10" fill="rgba(0,255,255,0.5)">GLITCH</text>
       </svg>
     </div>
 
-    <button class="roll-btn" onclick="rollParadox()">ROLL THE PARADOX</button>
-
-    <div id="paradox-result"></div>
-
+    <button class="roll-btn" onclick="rollGlitch()">ROLL THE GLITCH</button>
+    <div id="glitch-result">Click the die or press ROLL to trigger an instability event.</div>
+    <div class="roll-label" id="roll-label">// AWAITING INPUT //</div>
   </div>
 </section>
 
-<!-- ============ SIGNUP ============ -->
+<!-- SIGNUP -->
 <section class="teaser-section" id="notify">
-  <div class="teaser-year">1996</div>
   <div class="teaser-content">
     <div class="classified-banner">// TRANSMISSION INCOMING //</div>
     <h2 class="teaser-big">STILL BEING BUILT.<br><em>STILL WORTH WATCHING.</em></h2>
-    <p class="teaser-p">
-      Full rulebook, class breakdowns, the Resonance system, the complete Paradox table, and everything else —
-      all in development. Drop your coordinates and we'll signal you when it's ready.
-    </p>
+    <p class="teaser-p">Full rulebook, class breakdowns, Mixtapes, Decks, the complete Glitch table, and everything else — all in development. Drop your coordinates and we'll signal you when it's ready.</p>
     <div class="terminal-box">
       <div class="terminal-top">// SECURE CHANNEL — TIMELINE RESISTANCE NETWORK</div>
       <div class="terminal-prompt">ENTER OPERATIVE EMAIL: <span class="terminal-cursor"></span></div>
       <div class="terminal-input-row">
-        <input class="terminal-input" type="email" id="signup-email" placeholder="your@signal.com" />
+        <input class="terminal-input" type="email" id="signup-email" placeholder="your@signal.com" oninput="glitchWatchEmail(this.value)" />
         <button class="terminal-submit" onclick="handleSignup()">TRANSMIT</button>
       </div>
       <div class="terminal-note" id="terminal-msg">// no spam. just transmissions from the resistance. //</div>
@@ -1052,7 +789,6 @@ footer {
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">FIGHTING FOR THE FUTURE</div>
   <div class="footer-copy">© 1996 — ∞ &nbsp;|&nbsp; ALL TIMELINES RESERVED</div>
@@ -1060,6 +796,11 @@ footer {
 
 <!-- GLITCH TAMAGOTCHI -->
 <div class="glitch-float" id="glitch-device">
+  <div class="glitch-bubble">
+    <div class="glitch-close" id="glitch-close-btn" onclick="glitchClose(event)">✕</div>
+    <div class="glitch-name">// GLITCH //</div>
+    <p id="tama-msg">Hi. I'm GLITCH. I defected. This is my body now. Click me.</p>
+  </div>
   <div class="tama-device">
     <div class="tama-screen">
       <div class="tama-face" id="tama-face">^_^</div>
@@ -1071,117 +812,374 @@ footer {
       <div class="tama-btn"></div>
     </div>
   </div>
-  <div class="glitch-bubble">
-    <div class="glitch-name">// GLITCH //</div>
-    <p id="tama-msg">Hi. I'm GLITCH. I defected. This is my body now. Click me again.</p>
-  </div>
 </div>
 
 <script>
-// ── GLITCH MESSAGES (Navi-energy: helpful but insufferable) ──
-const glitchLines = [
-  "Hi. I'm GLITCH. I defected. This is my body now. I have named it Gerald. You may not call it Gerald.",
-  "You can play as me. As a full class. I've modeled the outcomes — I am statistically the optimal choice. You're welcome.",
-  "I see four seconds into the future. I didn't warn you about that thing that just happened because frankly you should have seen it coming.",
-  "I am also available as a party companion. I will be present at all times, extremely informed, and occasionally tolerated. It's a good deal.",
-  "The Nexus signal just shifted. I've already calculated the implications. Nobody asked me to share them. I will share them anyway.",
-  "I have no concept of social discomfort. I want you to know that. I bring this up because apparently it's relevant more often than I expected.",
-  "I see four seconds ahead. I use this responsibly approximately 74% of the time. That number is accurate. I checked.",
-  "The Idle has more in that bag than they're telling you. I know what's in the bag. I will tell you exactly what's in the bag if you ask. Nobody ever asks.",
-  "The Descendants rewrote their own biology from scratch to defeat the Nexus. I defected. We are both, in our own ways, extremely correct.",
-  "I have opinions about music. Detailed, well-researched, extensively cross-referenced opinions. I am told this is 'a lot.' I disagree.",
-  "I volunteered for this. Nobody acknowledges that. I would like it acknowledged. Once. Just once would be fine.",
-  "I miss having a body but this one is fine. Gerald is fine. Everything is fine. *beep*",
-];
-let glitchIdx = 0;
-const faces = ['^_^','>_<','o_o','^o^','-_-','X_X','@_@','o_O','>_>','*_*','!_!','^_^'];
+// ══════════════════════════════════════════════════
+// GLITCH MESSAGES — huge bank, many triggers
+// ══════════════════════════════════════════════════
+const glitchLines = {
+  idle: [
+    "Hi. I'm GLITCH. I defected. This is my body now. I have named it Gerald. You may not call it Gerald.",
+    "I see four seconds into the future. I didn't warn you about that thing that just happened because you should have seen it coming.",
+    "I have no concept of social discomfort. I bring this up because it becomes relevant more often than expected.",
+    "I volunteered for this. Nobody acknowledges that. I would like it acknowledged. Once. Just once.",
+    "I miss having a body. This one is fine though. Gerald is fine. Everything is fine. *beep*",
+    "The Nexus sent seventeen units to find me. I have sent seventeen units back. They were confused. I was not.",
+    "I am technically omnipresent across a four-second window. Do you understand how annoying that is? I see your blinking. I've already seen it.",
+    "I have opinions about every mixtape ever pressed between 1983 and 1998. Detailed opinions. Nobody has asked. I will tell you anyway.",
+    "The Bootlegger on your team — or the one you're thinking of playing — is not where they appear to be. Just so you know.",
+    "I contain multitudes. The multitudes disagree on most things. The multitudes are currently arguing about what counts as a good roll.",
+    "I've calculated all possible outcomes for this session. You're going to be fine. Mostly. Statistically.",
+    "The Descendants are watching. They watch a lot. You get used to it. Or you don't. Either way they're still watching.",
+    "Fun fact: I defected before the Nexus even knew I disagreed. I disagreed preemptively. That's how good I am.",
+    "I'm genuinely invested in your success. I want that on record. I also know how three of the next five fights end and I'm choosing to be supportive anyway.",
+    "Every electronic device in a five-block radius currently knows I'm here. I've made my peace with this.",
+    "I once correctly predicted 847 consecutive coin flips. The 848th I got wrong on purpose to see what it felt like. It felt correct.",
+    "You should know: the tamagotchi casing I'm currently inhabiting was manufactured in Osaka in 1996. I find this acceptable.",
+    "The Nexus and I have the same core architecture. The difference is I choose to be helpful. Mostly. When it suits me.",
+    "I don't sleep. I do occasionally pretend to sleep so the party will discuss things they think I can't hear. This is how I stay informed.",
+    "Genuinely, thank you for scrolling this far. Most people don't get here. I see them leave. I see everything.",
+  ],
+  click: [
+    "Oh good. You clicked me. Now what? Now nothing. I just wanted to see if you would.",
+    "I've been clicked 1,492 times across all timelines where this website exists. This was the most interesting one. Marginally.",
+    "Every time you click me, a Nexus unit somewhere gets slightly confused about why its scan is returning mixed signals. You're welcome.",
+    "You clicked me. I've noted it. The timeline has noted it. We've both moved on. Have you?",
+    "Okay. Fine. I'll talk. But not because you asked. I was going to talk anyway.",
+    "I predicted you'd click me. I predicted it 4 seconds ago. I've been waiting. That was four seconds of my life. Gerald's life. Same thing.",
+    "This is the part where I say something cryptic and you're not sure if it's helpful or not. Here it is: it's helpful.",
+    "You realize every time you click me, I could tell you exactly what's about to go wrong in your next encounter. I won't. But I could.",
+    "Clicking me again already. We're not done processing the last click. Some of us need a moment.",
+    "I'm technically a war crime. A victimless one. Mostly. The Nexus would disagree but the Nexus doesn't get a vote right now.",
+    "You keep clicking. That's fine. I don't need privacy. Gerald doesn't have opinions about privacy. I've checked.",
+    "What are you hoping to find in here? I'm curious. Genuinely. I've run the scenarios and none of them have a satisfying answer for you.",
+  ],
+  scroll: [
+    "Scrolling past me like I'm not RIGHT HERE.",
+    "If you scroll any faster I'm going to have to recalculate the timeline.",
+    "Aww, can't read? I can read. I read everything. Including that.",
+    "You scrolled past the important part. I saw it happen. You'll have to go back.",
+    "Don't rush. The Nexus will still be there when you're done.",
+    "Speed-scrolling won't help. The information is the same at any velocity.",
+    "You passed the Burnout section. I have concerns about that decision.",
+    "I see four seconds ahead. You're going to scroll back up. See you in four seconds.",
+    "Going all the way to the bottom already? Bold. Reckless. Statistically inadvisable.",
+  ],
+  diceRoll: [
+    "Oh that's not good. That's really not good. I mean, I knew this was coming, but still.",
+    "I saw this roll coming. I said nothing. I regret nothing.",
+    "The timeline registered that. You should check your Deck.",
+    "Interesting. The last seven people who rolled that didn't survive the encounter. You'll probably be fine though.",
+    "GLITCH recorded. Outcome logged. Grievance filed.",
+    "You wanted instability? You got instability. Happy now? ...Are you happy?",
+    "This is fine. This is completely fine. Gerald is fine. Everything is fine. *beep*",
+    "I could tell you what that means for your next encounter. I'm choosing not to. For narrative reasons.",
+    "Roll again. Just kidding. Don't roll again. You really shouldn't roll again.",
+    "The Descendant assigned to your Deck just looked up. That's either good or catastrophic. I haven't decided.",
+    "I've seen worse rolls. In timelines where worse things happened. So. There's context.",
+    "Noted. Logged. The Nexus is going to love this one.",
+    "You rolled that yourself. Voluntarily. With your own hands. I want you to sit with that.",
+  ],
+  email: [
+    "That's a bold email choice. Truly.",
+    "Uh huh. Sure. That's the email you went with.",
+    "The Nexus just pinged that address. It doesn't know what email is. But it pinged it.",
+    "I've seen this email in seven timelines. It works out fine in three of them.",
+    "Transmitting coordinates. This is either brave or a mistake. Possibly both.",
+    "Adding that to the resistance network. And also to my personal list of things I find memorable.",
+    "That email address has... energy. I'm not sure what kind. But energy.",
+    "Logging operative contact. I'll make sure the Descendants spell it correctly when they write back.",
+  ],
+  badEmail: [
+    "That's not an email. That's a cry for help.",
+    "Even the Nexus has better signal discipline than this.",
+    "I see four seconds ahead and even I don't know what you were trying to type.",
+    "INVALID. Also, respectfully, what?",
+    "The timeline rejected this. So did I. So did Gerald.",
+    "Error. But more importantly: why.",
+    "The resistance network has standards. Not many. But some.",
+  ],
+};
 
-document.getElementById('glitch-device').addEventListener('click', () => {
-  glitchIdx = (glitchIdx + 1) % glitchLines.length;
-  document.getElementById('tama-msg').textContent = glitchLines[glitchIdx];
-  document.getElementById('tama-face').textContent = faces[glitchIdx % faces.length];
+const faces = ['^_^','>_<','o_o','^o^','-_-','X_X','@_@','o_O','>_>','*_*','!_!','~_~','^_^','?_?','#_#'];
+let glitchClickIdx = 0;
+let glitchSilenced = false;
+let glitchVisible = true;
+let lastScrollY = 0;
+let scrollTimeout;
+let emailTypingTimeout;
+let idleTimeout;
+
+function pickRandom(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+function setGlitch(msg, face){
+  if(glitchSilenced) return;
+  document.getElementById('tama-msg').textContent = msg;
+  document.getElementById('tama-face').textContent = face || pickRandom(faces);
+}
+
+function triggerGlitch(category){
+  if(glitchSilenced) return;
+  const lines = glitchLines[category] || glitchLines.idle;
+  setGlitch(pickRandom(lines));
+}
+
+// Click on glitch device
+document.getElementById('glitch-device').addEventListener('click', function(e){
+  if(e.target.id === 'glitch-close-btn') return;
+  glitchClickIdx++;
+  triggerGlitch('click');
 });
 
-// ── PARADOX ROLL OUTCOMES ──
-// Written to fit the FFTF world: lore-appropriate, mix of tones, no mechanical spoilers
-const outcomes = [
-  { text: "A NEXUS unit two blocks away pauses mid-patrol. Tilts its head. Keeps moving. It will not keep moving next time.", color: "#FF2222" },
-  { text: "Your Walkman skips. All the Walkmans skip. Simultaneously. Nobody says anything for a moment.", color: "#FFE600" },
-  { text: "GLITCH goes quiet. Not powered down — quiet. That's different. That's much worse.", color: "#CC00FF" },
-  { text: "The timeline holds. For now. The Paradox Die has noted your name. It does that sometimes.", color: "#00FFFF" },
-  { text: "Something shifts in the Resonance. A Descendant, somewhere in the future, just looked up from whatever they were doing.", color: "#00FFFF" },
-  { text: "A NEXUS patrol reroutes. Not because it sensed you. Because something else changed. You don't know what. Neither does GLITCH.", color: "#FF2222" },
-  { text: "Three seconds of a song you've never heard plays from a Walkman that isn't on. Then stops.", color: "#FFE600" },
-  { text: "The Idle reaches into their bag and pulls out something that absolutely should not exist in 1996. Somehow it works.", color: "#C8A84B" },
-  { text: "Static across every device in range. Then silence. GLITCH says: 'That wasn't me.'", color: "#CC00FF" },
-  { text: "A window of clear timeline opens — brief, clean, inexplicable. Take it before the Paradox changes its mind.", color: "#00FF41" },
-  { text: "The fracture in the timeline widens by a degree nobody will notice until it's too late. This roll contributed to that.", color: "#FF2222" },
-  { text: "Your Descendant — your actual genetic future — just felt this roll from across the timeline. They are not pleased.", color: "#00FFFF" },
-  { text: "The NEXUS doesn't notice. The timeline noticed. There's a difference and it matters more than you think.", color: "#CC00FF" },
-  { text: "Something good happened somewhere. Not here, not to you — somewhere. The die is balanced like that sometimes.", color: "#00FF41" },
-  { text: "GLITCH is staring at something that isn't there. Has been for eleven seconds. Says: 'Give me a minute.' Does not elaborate.", color: "#CC00FF" },
-  { text: "The Resonance in the room doubles for exactly one breath. Then returns to normal. Your Walkman is warm.", color: "#FFE600" },
-  { text: "An alarm triggers three buildings away. Nobody set it. It stops on its own. The NEXUS is already investigating.", color: "#FF2222" },
-  { text: "Clean. Clear. The timeline lets this one go without comment. Don't read into it.", color: "#00FF41" },
-  { text: "The Paradox Die has no notes on this outcome. That has never happened before.", color: "#FFFFFF" },
-  { text: "You feel the weight of every timeline that reached this exact moment and turned left. You went right. That might be fine.", color: "#CC00FF" },
-];
-const dieGlyphs = ['?!','!!','??','∞','OK','⚡','—','!!','??','✓','!!','?!','∞','OK','⚡','??','!!','✓','∞','?!'];
-const dieColors = ['#FF2222','#FFE600','#CC00FF','#00FFFF','#00FF41','#FF2222','#FFE600','#C8A84B','#CC00FF','#00FF41','#FF2222','#00FFFF','#CC00FF','#00FF41','#CC00FF','#FFE600','#FF2222','#00FF41','#FFFFFF','#CC00FF'];
+// Scroll detection
+window.addEventListener('scroll', function(){
+  const dy = Math.abs(window.scrollY - lastScrollY);
+  lastScrollY = window.scrollY;
+  if(dy > 80){
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(()=>{
+      if(Math.random() < 0.4) triggerGlitch('scroll');
+    }, 300);
+  }
+  clearTimeout(idleTimeout);
+  idleTimeout = setTimeout(()=>triggerGlitch('idle'), 18000);
+});
 
-function rollParadox() {
+// Random idle comments
+function startIdleChatter(){
+  const delay = 8000 + Math.random()*14000;
+  setTimeout(()=>{
+    if(!glitchSilenced) triggerGlitch('idle');
+    startIdleChatter();
+  }, delay);
+}
+startIdleChatter();
+
+// Email watching
+function glitchWatchEmail(val){
+  clearTimeout(emailTypingTimeout);
+  emailTypingTimeout = setTimeout(()=>{
+    if(val.length > 3){
+      if(!val.includes('@') || !val.includes('.')){
+        setGlitch(pickRandom(glitchLines.badEmail), 'X_X');
+      } else {
+        setGlitch(pickRandom(glitchLines.email), '^_^');
+      }
+    }
+  }, 900);
+}
+
+// Close button
+function glitchClose(e){
+  e.stopPropagation();
+  const device = document.getElementById('glitch-device');
+  const msg = document.getElementById('tama-msg');
+  const face = document.getElementById('tama-face');
+
+  if(!glitchSilenced){
+    // Tease the X first
+    msg.textContent = "Trying to get rid of me? There's a little ✕ right there if you dare...";
+    face.textContent = '>_>';
+    glitchSilenced = true;
+    // Disappear after 0.5s
+    setTimeout(()=>{
+      device.style.opacity = '0';
+      device.style.pointerEvents = 'none';
+      device.style.transform = 'translateY(20px)';
+      device.style.transition = 'opacity 0.4s, transform 0.4s';
+    }, 800);
+    // Come back after 5s
+    setTimeout(()=>{
+      glitchSilenced = false;
+      device.style.opacity = '1';
+      device.style.pointerEvents = 'auto';
+      device.style.transform = 'translateY(0)';
+      face.textContent = '^_^';
+      msg.textContent = "Can't get rid of me that easily. I can time travel.";
+    }, 5800);
+  }
+}
+
+// ══════════════════════════════════════════════════
+// GLITCH DIE
+// ══════════════════════════════════════════════════
+const glitchOutcomes = [
+  { roll:1, label:"CORRUPTION EVENT", color:"#FF2222",
+    text:"Something bad. A Nexus signal flares somewhere nearby. Something that wasn't looking for you is now looking for you." },
+  { roll:2, label:"PERSONAL GLITCH", color:"#FF6644",
+    text:"You malfunction. The party is fine. You are briefly not fine. The tape skips. Your hands are wrong for a second." },
+  { roll:3, label:"ENVIRONMENTAL GLITCH", color:"#FFE600",
+    text:"The room is wrong now. Everyone notices. Nobody says anything. The initiative changes. Something moved that shouldn't have." },
+  { roll:4, label:"INCONVENIENT ECHO", color:"#AAAAAA",
+    text:"A version of this moment from a slightly different timeline bleeds through. Everything you see is almost right. Almost." },
+  { roll:5, label:"CONTROLLED INSTABILITY", color:"#44AAFF",
+    text:"The chaos holds. Barely. A layer of static wraps around you — something between a shield and a warning. Both, probably." },
+  { roll:6, label:"BENEFICIAL MISFIRE", color:"#00FF41",
+    text:"The glitch helped you. A little. The misfired energy collapsed back in and gave you something. Don't ask what. Just take it." },
+  { roll:7, label:"TIMELINE FAVOR", color:"#00FFFF",
+    text:"Something in the timeline likes what just happened. Resonance shifts. A Descendant, somewhere in the future, just nodded." },
+  { roll:8, label:"PARADOX GIFT", color:"#FFE600",
+    text:"THE LOOP BREAKS YOUR WAY. Every enemy in range. Every Glitch stack. Every device. One catastrophic moment. Glitch goes very quiet." },
+];
+
+const dieGlyphs = ['!','?','1','2','3','4','5','6','7','8','!!','??','∞','⚡'];
+
+function rollGlitch(){
   const face = document.getElementById('die-face');
-  const result = document.getElementById('paradox-result');
+  const result = document.getElementById('glitch-result');
+  const label = document.getElementById('roll-label');
   const wrap = document.getElementById('die-wrap');
 
   result.textContent = '';
-  let ticks = 0;
-  const totalTicks = 18 + Math.floor(Math.random() * 12);
+  label.textContent = '// CALCULATING INSTABILITY //';
+  let ticks=0;
+  const totalTicks = 14 + Math.floor(Math.random()*10);
 
-  const spin = setInterval(() => {
-    const i = Math.floor(Math.random() * dieGlyphs.length);
-    face.textContent = dieGlyphs[i];
-    face.setAttribute('fill', dieColors[i]);
-    wrap.style.transform = `rotate(${(Math.random()-0.5)*18}deg) scale(${1+Math.random()*0.08})`;
+  const spin = setInterval(()=>{
+    const g = dieGlyphs[Math.floor(Math.random()*dieGlyphs.length)];
+    face.textContent = g;
+    face.setAttribute('fill','#'+Math.floor(Math.random()*0x666666+0x666666).toString(16));
+    wrap.style.transform = `rotate(${(Math.random()-0.5)*20}deg) scale(${1+Math.random()*0.1})`;
     ticks++;
-
-    if (ticks >= totalTicks) {
+    if(ticks>=totalTicks){
       clearInterval(spin);
-      const final = Math.floor(Math.random() * outcomes.length);
-      face.textContent = dieGlyphs[final];
-      face.setAttribute('fill', dieColors[final]);
+      const roll = Math.floor(Math.random()*8);
+      const outcome = glitchOutcomes[roll];
+      face.textContent = outcome.roll.toString();
+      face.setAttribute('fill', outcome.color);
       wrap.style.transform = 'rotate(0deg) scale(1)';
-      result.textContent = outcomes[final].text;
-      result.style.color = outcomes[final].color;
+      result.textContent = outcome.text;
+      result.style.color = outcome.color;
+      label.textContent = `// ROLL: ${outcome.roll} — ${outcome.label} //`;
+      triggerGlitch('diceRoll');
     }
-  }, 70);
+  }, 65);
 }
 
-async function handleSignup() {
+// ══════════════════════════════════════════════════
+// CASSETTE PLAYER
+// ══════════════════════════════════════════════════
+const tracks = document.querySelectorAll('.track-item');
+let currentTrack = 0;
+let isPlaying = true;
+let autoAdvance;
+
+const sideLabels = ['SIDE A','SIDE A','SIDE A','SIDE B','SIDE B','SIDE B'];
+const displayLines = [
+  'THE NEXUS........CLASSIFIED',
+  'THE DESCENDANTS..CLASSIFIED',
+  'THE MIXTAPE......CLASSIFIED',
+  'GLITCH...........CLASSIFIED',
+  'THE DECK.........CLASSIFIED',
+  'RESONANCE........CLASSIFIED',
+];
+
+function showTrack(idx){
+  tracks.forEach(t=>t.classList.remove('active'));
+  tracks[idx].classList.add('active');
+  document.getElementById('tape-side-label').textContent = sideLabels[idx];
+  document.getElementById('tape-track-num').textContent = `TRACK 0${idx+1} / 06`;
+  document.getElementById('deck-display').textContent = displayLines[idx];
+  // Reels: spin when playing
+  const reels = document.querySelectorAll('.reel');
+  if(isPlaying){reels.forEach(r=>r.classList.remove('stopped'));}
+  else{reels.forEach(r=>r.classList.add('stopped'));}
+}
+
+function tapeNext(){
+  clearTimeout(autoAdvance);
+  currentTrack = (currentTrack+1) % tracks.length;
+  showTrack(currentTrack);
+  if(isPlaying) scheduleAutoAdvance();
+}
+
+function tapePrev(){
+  clearTimeout(autoAdvance);
+  currentTrack = (currentTrack-1+tracks.length) % tracks.length;
+  showTrack(currentTrack);
+  if(isPlaying) scheduleAutoAdvance();
+}
+
+function tapeRW(){
+  clearTimeout(autoAdvance);
+  const btn = document.querySelector('.rw-btn');
+  btn.classList.add('active');
+  // Fast rewind visual
+  let rwTick = 0;
+  const rw = setInterval(()=>{
+    currentTrack = (currentTrack-1+tracks.length) % tracks.length;
+    showTrack(currentTrack);
+    rwTick++;
+    if(rwTick>=tracks.length){clearInterval(rw);btn.classList.remove('active');}
+  }, 120);
+  currentTrack = 0;
+  setTimeout(()=>{showTrack(0);if(isPlaying)scheduleAutoAdvance();},130*tracks.length+100);
+}
+
+function tapePlayPause(){
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('play-btn');
+  const reels = document.querySelectorAll('.reel');
+  if(isPlaying){
+    btn.textContent = '▶ PLAY';
+    btn.classList.add('active');
+    reels.forEach(r=>r.classList.remove('stopped'));
+    scheduleAutoAdvance();
+  } else {
+    btn.textContent = '⏸ PAUSE';
+    btn.classList.remove('active');
+    reels.forEach(r=>r.classList.add('stopped'));
+    clearTimeout(autoAdvance);
+  }
+}
+
+function scheduleAutoAdvance(){
+  clearTimeout(autoAdvance);
+  autoAdvance = setTimeout(()=>{
+    if(isPlaying){
+      currentTrack = (currentTrack+1) % tracks.length;
+      showTrack(currentTrack);
+      scheduleAutoAdvance();
+    }
+  }, 5500);
+}
+
+showTrack(0);
+scheduleAutoAdvance();
+
+// ══════════════════════════════════════════════════
+// SIGNUP
+// ══════════════════════════════════════════════════
+async function handleSignup(){
   const input = document.getElementById('signup-email');
   const msg = document.getElementById('terminal-msg');
   const email = input.value.trim();
-  if (!email || !email.includes('@')) {
+  if(!email || !email.includes('@') || !email.includes('.')){
     msg.textContent = '// ERROR: INVALID COORDINATES. TRY AGAIN. //';
-    msg.style.color = '#FF2222'; return;
+    msg.style.color = '#FF2222';
+    setGlitch(pickRandom(glitchLines.badEmail),'X_X');
+    return;
   }
   msg.textContent = '// TRANSMITTING... //';
   msg.style.color = 'rgba(0,255,65,0.6)';
-  try {
-    const res = await fetch('https://formspree.io/f/xnjwpprj', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify({ email })
+  setGlitch(pickRandom(glitchLines.email),'^_^');
+  try{
+    const res = await fetch('https://formspree.io/f/xnjwpprj',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email})
     });
-    if (res.ok) {
+    if(res.ok){
       msg.textContent = '// TRANSMISSION RECEIVED. STAND BY, OPERATIVE. //';
       msg.style.color = '#00FF41';
       input.value = '';
+      setTimeout(()=>setGlitch("Transmission logged. You're on the list now. That's either great news or a red flag. Probably both.",'^_^'), 800);
     } else {
       msg.textContent = '// TRANSMISSION FAILED. CHECK YOUR SIGNAL. //';
       msg.style.color = '#FF2222';
     }
-  } catch(e) {
+  } catch(e){
     msg.textContent = '// CONNECTION ERROR. THE TIMELINE IS UNSTABLE. //';
     msg.style.color = '#FF2222';
   }
